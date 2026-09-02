@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { event } from "@/content/event";
 import { navItems } from "@/lib/site";
 
@@ -13,9 +14,29 @@ function isCurrent(pathname: string, href: string) {
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const ref = useRef<HTMLElement>(null);
+
+  // Scroll-edge effect: stamp data-scrolled once content is under the header.
+  // Passive listener, attribute set directly — no React re-render per scroll.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let scrolled = false;
+    const update = () => {
+      const next = window.scrollY > 4;
+      if (next !== scrolled) {
+        scrolled = next;
+        if (next) el.setAttribute("data-scrolled", "");
+        else el.removeAttribute("data-scrolled");
+      }
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   return (
-    <header className="site-header">
+    <header ref={ref} className="site-header">
       <div className="wrap flex h-16 items-center gap-7">
         <Link
           href="/"

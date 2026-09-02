@@ -1,30 +1,55 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
 
 type RevealProps = {
   children: React.ReactNode;
   className?: string;
+  /** Stagger offset in seconds. Keep 0.03–0.08 between siblings. */
   delay?: number;
-  as?: "div" | "li" | "article";
+  as?: "div" | "li" | "article" | "section";
 };
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduce = useReducedMotion();
+/**
+ * Scroll reveal for marketing surfaces. Motion lives in CSS (`.reveal` in
+ * globals.css) so it runs off the main thread; JS only stamps `data-visible`
+ * on the element once it enters the viewport. Fires once, no re-render.
+ */
+export function Reveal({ children, className, delay = 0, as: Tag = "div" }: RevealProps) {
+  const ref = useRef<HTMLElement | null>(null);
+  // Callback ref keeps the union of intrinsic tags happy with one ref type.
+  const setRef = (node: HTMLElement | null) => {
+    ref.current = node;
+  };
 
-  if (reduce) {
-    return <div className={className}>{children}</div>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const show = () => el.setAttribute("data-visible", "");
+    if (typeof IntersectionObserver === "undefined") {
+      show();
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          show();
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -48px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-48px" }}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+    <Tag
+      ref={setRef}
+      className={className ? `reveal ${className}` : "reveal"}
+      style={delay > 0 ? { transitionDelay: `${Math.round(delay * 1000)}ms` } : undefined}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }

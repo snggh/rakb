@@ -31,6 +31,16 @@
   --shadow-sm: 0 0 0 1px var(--color-divider);
   --shadow-md: 0 0 0 1px var(--line-hi);
   --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.65);
+
+  /* Motion tokens — every transition/animation in the project uses these. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 160ms;
+  --dur-hover: 150ms;
+  --dur-ui: 200ms;
+  --dur-modal: 250ms;
+  --dur-reveal: 500ms;
 }
 
 @theme inline {
@@ -62,9 +72,10 @@ body {
 
 body {
   margin: 0;
-  font-size: 15px;
+  font-size: 0.9375rem; /* 15px at default text size — scales with the user's setting */
   line-height: 1.6;
   font-weight: 400;
+  font-optical-sizing: auto;
 }
 
 h1,
@@ -81,36 +92,50 @@ h6 {
   color: var(--color-text);
 }
 
+/* Tracking is size-specific: tighter as type grows, ~0 near body size. */
 h1 {
-  font-size: 42px;
+  font-size: 2.625rem;
   font-weight: 600;
   letter-spacing: -0.04em;
 }
 h2 {
-  font-size: 34px;
+  font-size: 2.125rem;
   letter-spacing: -0.03em;
 }
 h3 {
-  font-size: 22px;
+  font-size: 1.375rem;
 }
 h4 {
-  font-size: 18px;
+  font-size: 1.125rem;
+  letter-spacing: -0.015em;
 }
 h5 {
-  font-size: 16px;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 h6 {
-  font-size: 13px;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 p {
   margin: 0 0 var(--space-3);
 }
 
+a,
+button,
+summary,
+input,
+label {
+  touch-action: manipulation; /* no double-tap zoom delay on pressables */
+}
+
 a {
   color: var(--color-text);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--dur-hover) ease;
 }
 
 a:hover {
@@ -203,7 +228,7 @@ figcaption {
 }
 
 .page-title {
-  font-size: clamp(34px, 5vw, 54px);
+  font-size: clamp(2.125rem, 5vw, 3.375rem);
   line-height: 1.03;
   letter-spacing: -0.04em;
   font-weight: 600;
@@ -211,7 +236,7 @@ figcaption {
 }
 
 .hero-title {
-  font-size: clamp(40px, 6.2vw, 76px);
+  font-size: clamp(2.5rem, 6.2vw, 4.75rem);
   line-height: 1.02;
   letter-spacing: -0.045em;
   font-weight: 600;
@@ -309,9 +334,10 @@ figcaption {
   background: var(--color-surface);
   border: 1px solid var(--color-divider);
   border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); /* light catching the surface */
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
+    border-color var(--dur-hover) ease,
+    background-color var(--dur-hover) ease;
 }
 
 .panel:hover {
@@ -335,7 +361,15 @@ figcaption {
   border: 1px solid transparent;
   padding: 10px 18px;
   border-radius: 8px;
-  transition: all 0.15s ease;
+  transition:
+    background-color var(--dur-hover) ease,
+    border-color var(--dur-hover) ease,
+    color var(--dur-hover) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .btn:disabled {
@@ -408,6 +442,9 @@ figcaption {
   background: #0a0a0a;
   border: 1px solid var(--color-divider);
   border-radius: 8px;
+  transition:
+    border-color var(--dur-hover) ease,
+    box-shadow var(--dur-hover) ease;
 }
 
 .input:hover {
@@ -418,6 +455,15 @@ figcaption {
   border-color: #4b4b4b;
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+/* Inline validation — only after the user has interacted with the field, never on load. */
+.input:user-invalid {
+  border-color: #c2504a;
+}
+
+.input:user-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(194, 80, 74, 0.18);
 }
 
 .table-shell {
@@ -481,6 +527,10 @@ figcaption {
   border-radius: 12px;
   background: #0a0a0a;
   border: 1px solid var(--color-divider);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    var(--shadow-lg);
+  transform-origin: center; /* modal — not anchored to a trigger, stays centered */
 }
 
 .dialog-title {
@@ -514,16 +564,12 @@ figcaption {
 }
 
 .image-slot img {
-  transition: transform 0.45s ease;
+  transition: transform 400ms var(--ease-out);
 }
 
-.image-slot:hover img {
-  transform: scale(1.03);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .image-slot img {
-    transition: none;
+@media (hover: hover) and (pointer: fine) {
+  .image-slot:hover img {
+    transform: scale(1.03);
   }
 }
 
@@ -558,8 +604,15 @@ figcaption {
   top: 0;
   z-index: 20;
   background: rgba(0, 0, 0, 0.72);
-  border-bottom: 1px solid var(--color-divider);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  /* Scroll-edge effect: the divider only exists once content is actually underneath. */
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-ui) ease;
+}
+
+.site-header[data-scrolled] {
+  border-bottom-color: var(--color-divider);
 }
 
 .nav-links {
@@ -569,15 +622,19 @@ figcaption {
   white-space: nowrap;
 }
 
+/* Vibrancy: text over a translucent material gets a touch more contrast, weight and tracking. */
 .nav-links a,
 .mobile-nav a {
-  color: var(--dim);
+  color: #b8b8b8;
   text-decoration: none;
   font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
 }
 
 .mobile-nav a {
-  font-size: 12.5px;
+  font-size: 13px;
+  padding: 4px 0;
 }
 
 .nav-links a:hover,
@@ -610,8 +667,13 @@ figcaption {
   display: none;
   gap: 18px;
   overflow-x: auto;
-  padding: 10px 24px;
+  padding: 9px 24px;
   border-top: 1px solid var(--color-divider);
+  scrollbar-width: none;
+}
+
+.mobile-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .hero-grid {
@@ -661,14 +723,216 @@ figcaption {
   display: none;
 }
 
+.faq-item > summary {
+  transition: color var(--dur-hover) ease;
+}
+
+.faq-item > summary:active {
+  color: var(--dim); /* feedback on pointer-down, not on release */
+}
+
 .faq-plus {
   display: inline-block;
   color: var(--dim);
-  transition: transform 0.18s ease;
+  transition: transform var(--dur-ui) var(--ease-in-out);
 }
 
 .faq-item[open] > summary .faq-plus {
   transform: rotate(45deg);
+}
+
+/* Answer enters when <details> opens. @starting-style fires on display:none → block. */
+.faq-answer {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--dur-ui) var(--ease-out),
+    transform var(--dur-ui) var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* Live indicator — constant, decorative, opacity only. */
+.status-dot {
+  animation: dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Scroll reveal — marketing surfaces only. Fires once via IntersectionObserver. */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal[data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Route change — runs as a CSS animation so it stays smooth while the new page loads. */
+.page-enter {
+  animation: page-enter var(--dur-modal) var(--ease-out) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Success screen — the one rare moment that gets a stagger. */
+.success-stagger > * {
+  animation: fade-up 300ms var(--ease-out) both;
+}
+
+.success-stagger > :nth-child(1) {
+  animation-delay: 60ms;
+}
+.success-stagger > :nth-child(2) {
+  animation-delay: 110ms;
+}
+.success-stagger > :nth-child(3) {
+  animation-delay: 160ms;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Inline text button that must read as a link (inherits the surrounding font). */
+.link-inline {
+  font: inherit;
+  color: #8fbcff;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--dur-hover) ease;
+}
+
+.link-inline:hover {
+  color: #b9d4ff;
+}
+
+/* Reduced motion: keep opacity/color feedback, drop movement. */
+@media (prefers-reduced-motion: reduce) {
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
+
+  .image-slot img {
+    transition: none;
+  }
+
+  .faq-plus {
+    transition: none;
+  }
+
+  .faq-answer {
+    transform: none;
+    transition: opacity var(--dur-ui) ease;
+  }
+
+  .status-dot {
+    animation: none;
+  }
+
+  .reveal {
+    transform: none;
+    transition: opacity var(--dur-ui) ease;
+  }
+
+  .page-enter {
+    animation: fade-in var(--dur-ui) ease both;
+  }
+
+  .success-stagger > * {
+    animation: fade-in var(--dur-ui) ease both;
+  }
+}
+
+/* Translucent surfaces go frosty/solid when the user asks for it. */
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background: #000000;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .dialog-backdrop {
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: none;
+  }
+}
+
+/* Defined, contrasting edges when the user asks for more contrast. */
+@media (prefers-contrast: more) {
+  :root {
+    --color-divider: #3a3a3a;
+    --line-hi: #5a5a5a;
+    --dim: #c4c4c4;
+    --dimmer: #9a9a9a;
+  }
+
+  .btn-secondary,
+  .input,
+  .panel,
+  .dialog {
+    border-color: #6a6a6a;
+  }
+
+  .site-header {
+    background: #000000;
+  }
+}
+
+/* Touch: 44px minimum hit targets without changing the pointer-precise design. */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+
+  .mobile-nav a {
+    padding: 12px 0; /* ≈44px hit target with the 13px label */
+  }
+
+  .link-inline {
+    padding: 6px 0;
+  }
 }
 
 .hero-shader {

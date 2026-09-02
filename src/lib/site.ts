@@ -10,7 +10,6 @@ export const site = {
 } as const;
 
 export const navItems = [
-  { href: "/", label: "Home" },
   { href: "/schedule", label: "Schedule" },
   { href: "/getting-there", label: "Getting There" },
   { href: "/rules", label: "Rules" },
@@ -21,6 +20,7 @@ export const navItems = [
 ] as const;
 
 export const routes: readonly string[] = [
+  "/",
   ...navItems.map((item) => item.href),
   "/register",
 ];

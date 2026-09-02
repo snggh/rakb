@@ -5,6 +5,10 @@ import { useState } from "react";
 import { TermsDialog } from "@/components/terms-dialog";
 import { submitRegistration } from "@/lib/submit-registration";
 
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+const ENTER = { duration: 0.3, ease: EASE_OUT };
+const EXIT = { duration: 0.15, ease: EASE_OUT };
+
 type RegisterFormProps = {
   registrationOpen: boolean;
 };
@@ -45,14 +49,14 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
 
   return (
     <>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         {submitted ? (
           <motion.div
             key="success"
-            initial={reduce ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -8 }}
-            className="panel max-w-[560px] p-8"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(8px)" }}
+            animate={{ opacity: 1, transform: "translateY(0px)", transition: ENTER }}
+            exit={{ opacity: 0, transition: EXIT }}
+            className="panel success-stagger max-w-[560px] p-8"
           >
             <h3 className="mb-2 text-[22px]">You&apos;re on the list. See you in the room.</h3>
             <p className="mb-5 text-sm leading-[1.6] text-[var(--dim)]">
@@ -67,9 +71,9 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
           <motion.form
             key="form"
             onSubmit={handleSubmit}
-            initial={reduce ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(8px)" }}
+            animate={{ opacity: 1, transform: "translateY(0px)", transition: ENTER }}
+            exit={{ opacity: 0, transition: EXIT }}
             className="panel grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px] p-8"
           >
             <div className="field">
@@ -164,11 +168,7 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
                 />
                 <span>
                   I have read and accept the{" "}
-                  <button
-                    type="button"
-                    className="bg-transparent p-0 font-inherit text-[#8fbcff] underline underline-offset-2"
-                    onClick={() => setTermsOpen(true)}
-                  >
+                  <button type="button" className="link-inline" onClick={() => setTermsOpen(true)}>
                     terms and conditions
                   </button>{" "}
                   — the meetup rules for the day.

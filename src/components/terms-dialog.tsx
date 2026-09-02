@@ -1,9 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { rules, termsClosing, termsPreamble } from "@/content/rules";
+
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+const ENTER = { duration: 0.25, ease: EASE_OUT };
+const EXIT = { duration: 0.18, ease: EASE_OUT };
 
 type TermsDialogProps = {
   open: boolean;
@@ -22,11 +26,12 @@ export function TermsDialog({
 }: TermsDialogProps) {
   const titleId = useId();
   const reduce = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // true after hydration only — the portal target does not exist on the server.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -50,9 +55,9 @@ export function TermsDialog({
         <motion.div
           className="dialog-backdrop"
           role="presentation"
-          initial={reduce ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={reduce ? undefined : { opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: ENTER }}
+          exit={{ opacity: 0, transition: EXIT }}
           onClick={(e) => {
             if (e.target === e.currentTarget) onClose();
           }}
@@ -62,9 +67,9 @@ export function TermsDialog({
             aria-modal="true"
             aria-labelledby={titleId}
             className="dialog"
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: 8 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "scale(0.96)" }}
+            animate={{ opacity: 1, transform: "scale(1)", transition: ENTER }}
+            exit={reduce ? { opacity: 0, transition: EXIT } : { opacity: 0, transform: "scale(0.98)", transition: EXIT }}
           >
             <div id={titleId} className="dialog-title">
               Terms &amp; conditions

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/reveal";
 import { rundown, scheduleDraft, scheduleNote } from "@/content/schedule";
 
 export const metadata: Metadata = {
@@ -29,20 +28,14 @@ export default function SchedulePage() {
               </tr>
             </thead>
             <tbody>
-              {rundown.map((row, i) => (
+              {rundown.map((row) => (
                 <tr key={row.time + row.title}>
-                  <td className="font-mono text-[13px] text-[var(--color-text)]">
-                    <Reveal delay={i * 0.03}>{row.time}</Reveal>
-                  </td>
+                  <td className="font-mono text-[13px] text-[var(--color-text)]">{row.time}</td>
                   <td>
-                    <Reveal delay={i * 0.03}>
-                      <div className="font-medium">{row.title}</div>
-                      <div className="text-[12.5px] text-[var(--dimmer)]">{row.note}</div>
-                    </Reveal>
+                    <div className="font-medium">{row.title}</div>
+                    <div className="text-[12.5px] text-[var(--dimmer)]">{row.note}</div>
                   </td>
-                  <td className="text-[13px] text-[var(--dim)]">
-                    <Reveal delay={i * 0.03}>{row.room}</Reveal>
-                  </td>
+                  <td className="text-[13px] text-[var(--dim)]">{row.room}</td>
                 </tr>
               ))}
             </tbody>
