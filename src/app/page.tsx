@@ -45,7 +45,7 @@ export default function HomePage() {
               </div>
             </Reveal>
             <Reveal delay={0.08}>
-              <ImageSlot src={event.heroImage} alt="Hero photo — Meetup Vol. 1" ratio="4 / 3" />
+              <ImageSlot src={event.heroImage} alt="RAKB mascot" ratio="4 / 3" fit="contain" bare />
             </Reveal>
           </div>
         </div>

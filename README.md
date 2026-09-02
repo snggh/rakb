@@ -36,6 +36,64 @@ All meetup copy lives in `src/content/`. Change a file, save, and the pages that
 
 Until a path is set, the site shows a paper keycap-grid placeholder.
 
+## Theme
+
+The site has two legend modes, named the way keycaps are:
+
+| Mode | Meaning | Was |
+| --- | --- | --- |
+| **WoB** | White on Black — light legends, dark board | dark mode |
+| **BoW** | Black on White — dark legends, light board | light mode |
+
+The switch lives in the header. First visit follows the operating system; once
+someone picks a mode it is remembered (`localStorage`, key `rakb-legend`) and a
+small inline script in `src/app/layout.tsx` applies it before the first paint,
+so the page never flashes the wrong board colour.
+
+### Colorways
+
+On top of the legend mode sits a **colorway** — the palette the whole site is
+dressed in, one per meetup theme. It is set in one place:
+
+```ts
+// src/content/theme.ts
+export const activeColorway = "default";
+```
+
+Shipping now: `default` (Aksara — plain black, plain white, one blue accent),
+`foundation` (warm greige and cream, colourful alphas) and `harbour` (deep
+teal-blue on a cool grey plate). The last two also recolour the logo.
+
+To add the next one:
+
+1. Add an entry to `colorways` in `src/content/theme.ts`.
+2. Copy the template at the end of the theme layer in `src/app/globals.css` and
+   fill in the two blocks — `[data-colorway="<id>"][data-theme="wob"]` and
+   `[data-colorway="<id>"][data-theme="bow"]`. Only the tokens that actually
+   change need listing; the rest fall through to the default colorway.
+3. Point `activeColorway` at it.
+
+No component names a colour — everything reads CSS variables — so the whole
+site, the logo and the hero shader follow from those two blocks.
+
+### Logo
+
+`src/components/logo.tsx` is generated from `public/logo/rakb-logo-themeable.svg`
+and draws with `--logo-*` tokens, so one component covers every theme and
+colorway.
+
+- **`LogoBadge`** — the full badge, tagline and all. Used in the header
+  (`.logo-lockup`, 2.75rem tall) and the footer (`.logo-badge`, column width).
+  The tagline is roughly 1.7% of the badge width, so **2.75rem tall is the floor**
+  — below that it stops resolving. If the header ever gets shorter, shrink the
+  header, not the badge.
+- **`LogoMark`** — the RAKB; pill on its own, no tagline. For anywhere too small
+  for the badge; it is also the shape behind the app icons.
+
+Because the badge already sets the name, neither the header nor the footer
+repeats it as text. The static variants in `public/logo/` are kept for anything
+outside the site (social, stickers, print).
+
 ### Close or open registration
 
 In `src/content/event.ts`:

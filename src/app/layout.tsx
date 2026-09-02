@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { activeColorway, defaultLegendMode } from "@/content/theme";
 import { site } from "@/lib/site";
+import { themeScript } from "@/lib/theme-script";
 import "./globals.css";
 
 const geist = Geist({
@@ -38,14 +40,31 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-black font-sans text-(--color-text) antialiased">
+    <html
+      lang="en"
+      // The pre-paint script may swap data-theme before React hydrates.
+      suppressHydrationWarning
+      data-theme={defaultLegendMode}
+      data-colorway={activeColorway}
+      className={`${geist.variable} ${geistMono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="min-h-screen bg-(--color-bg) font-sans text-(--color-text) antialiased">
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>

@@ -1,17 +1,24 @@
 @import "tailwindcss";
 
-:root {
-  --color-bg: #000000;
-  --color-surface: #0a0a0a;
-  --color-ink: #ededed;
-  --color-text: #ededed;
-  --color-accent: #5b9dff;
-  --color-accent-2: #8fbcff;
-  --color-divider: #1f1f1f;
-  --dim: #a1a1a1;
-  --dimmer: #6f6f6f;
-  --line-hi: #333333;
+/* ============================================================================
+   THEME LAYER
+   ----------------------------------------------------------------------------
+   Two axes, both set as attributes on <html>:
 
+     data-theme="wob" | "bow"   legend mode, in keycap terms
+                                WoB = White on Black (light legends, dark board)
+                                BoW = Black on White (dark legends, light board)
+
+     data-colorway="<id>"       the palette the site is dressed in, one per
+                                meetup theme. See src/content/theme.ts.
+
+   Every colour in this file is a token defined below. Components never name a
+   colour, so a new colorway is a block of overrides and nothing else.
+   Adding one: copy the template at the end of this layer.
+   ========================================================================== */
+
+:root {
+  /* Non-colour tokens — identical in every theme and colorway. */
   --font-heading: var(--font-geist), system-ui, sans-serif;
   --font-heading-weight: 500;
   --font-body: var(--font-geist), system-ui, sans-serif;
@@ -30,7 +37,6 @@
 
   --shadow-sm: 0 0 0 1px var(--color-divider);
   --shadow-md: 0 0 0 1px var(--line-hi);
-  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.65);
 
   /* Motion tokens — every transition/animation in the project uses these. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -41,15 +47,383 @@
   --dur-ui: 200ms;
   --dur-modal: 250ms;
   --dur-reveal: 500ms;
+  --dur-theme: 220ms;
 }
+
+/* ---------------------------------------------------------------------------
+   Colorway: "Aksara" (default) — WoB
+   The house look: plain black, plain white, one blue accent.
+   `:root` carries it too, so the page renders correctly before the
+   theme script runs and for anyone browsing without JavaScript.
+   ------------------------------------------------------------------------ */
+:root,
+[data-theme="wob"] {
+  --color-scheme: dark;
+
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-raised: #0a0a0a;
+  --color-field: #0a0a0a;
+  --color-text: #ededed;
+  --color-ink: #ededed;
+  --color-strong: #ffffff;
+  --dim: #a1a1a1;
+  --dimmer: #6f6f6f;
+  --nav-ink: #b8b8b8;
+
+  --color-divider: #1f1f1f;
+  --line-hi: #333333;
+  --line-focus: #4b4b4b;
+
+  --color-accent: #5b9dff;
+  --color-accent-2: #8fbcff;
+  --color-accent-3: #b9d4ff;
+  --accent-soft-bg: rgba(91, 157, 255, 0.12);
+  --accent-soft-line: rgba(91, 157, 255, 0.25);
+
+  --btn-primary-bg: #ffffff;
+  --btn-primary-fg: #000000;
+  --btn-primary-bg-hover: #d4d4d4;
+  --btn-secondary-hover-bg: #111111;
+
+  --wash: rgba(255, 255, 255, 0.03);
+  --ph-grid: rgba(255, 255, 255, 0.04);
+  --selection: rgba(255, 255, 255, 0.16);
+  --inset-hi: rgba(255, 255, 255, 0.04);
+  --inset-hi-strong: rgba(255, 255, 255, 0.05);
+  --ring: 0 0 0 3px rgba(255, 255, 255, 0.06);
+
+  --color-danger: #c2504a;
+  --ring-danger: 0 0 0 3px rgba(194, 80, 74, 0.18);
+
+  --header-bg: rgba(0, 0, 0, 0.72);
+  --footer-bg: #050505;
+  --scrim: rgba(0, 0, 0, 0.75);
+  --scrim-solid: rgba(0, 0, 0, 0.92);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.65);
+
+  --glow-accent: rgba(91, 157, 255, 0.16);
+  --glow-soft: rgba(255, 255, 255, 0.07);
+  --glow-dot: 0 0 10px 2px rgba(91, 157, 255, 0.6);
+
+  /* Google Maps ships one tile set; invert it for dark boards. */
+  --map-filter: invert(0.92) hue-rotate(180deg) saturate(0.7);
+
+  /* Hero shader reads these through getComputedStyle. */
+  --shader-bg: #000000;
+  --shader-ink: #ededed;
+  --shader-accent: #ffffff;
+
+  /* Logo — matches public/logo/rakb-logo-wob.svg exactly. */
+  --logo-border: #111111;
+  --logo-plate: #ffffff;
+  --logo-pill: #111111;
+  --logo-tagline: #111111;
+  --logo-letter-r: #ffffff;
+  --logo-letter-a: #ffffff;
+  --logo-letter-k: #ffffff;
+  --logo-letter-b: #ffffff;
+  --logo-mark: #111111;
+  --logo-wink: #ffffff;
+}
+
+/* ---------------------------------------------------------------------------
+   Colorway: "Aksara" (default) — BoW
+   ------------------------------------------------------------------------ */
+[data-theme="bow"] {
+  --color-scheme: light;
+
+  --color-bg: #ffffff;
+  --color-surface: #fafafa;
+  --color-raised: #ffffff;
+  --color-field: #ffffff;
+  --color-text: #171717;
+  --color-ink: #171717;
+  --color-strong: #000000;
+  --dim: #666666;
+  --dimmer: #737373;
+  --nav-ink: #5c5c5c;
+
+  --color-divider: #eaeaea;
+  --line-hi: #d0d0d0;
+  --line-focus: #a1a1a1;
+
+  --color-accent: #0f5fe0;
+  --color-accent-2: #0b53c9;
+  --color-accent-3: #08419e;
+  --accent-soft-bg: rgba(15, 95, 224, 0.08);
+  --accent-soft-line: rgba(15, 95, 224, 0.22);
+
+  --btn-primary-bg: #171717;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg-hover: #3d3d3d;
+  --btn-secondary-hover-bg: #f4f4f4;
+
+  --wash: rgba(0, 0, 0, 0.025);
+  --ph-grid: rgba(0, 0, 0, 0.06);
+  --selection: rgba(15, 95, 224, 0.16);
+  --inset-hi: rgba(255, 255, 255, 0.9);
+  --inset-hi-strong: rgba(255, 255, 255, 1);
+  --ring: 0 0 0 3px rgba(0, 0, 0, 0.07);
+
+  --color-danger: #b3261e;
+  --ring-danger: 0 0 0 3px rgba(179, 38, 30, 0.15);
+
+  --header-bg: rgba(255, 255, 255, 0.72);
+  --footer-bg: #fafafa;
+  --scrim: rgba(23, 23, 23, 0.4);
+  --scrim-solid: rgba(23, 23, 23, 0.6);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.14);
+
+  --glow-accent: rgba(15, 95, 224, 0.1);
+  --glow-soft: rgba(0, 0, 0, 0.05);
+  --glow-dot: 0 0 10px 2px rgba(15, 95, 224, 0.35);
+
+  --map-filter: none;
+
+  --shader-bg: #ffffff;
+  --shader-ink: #171717;
+  --shader-accent: #0a0a0a;
+
+  /* Logo — matches public/logo/rakb-logo-bow.svg exactly. */
+  --logo-border: #ffffff;
+  --logo-plate: #111111;
+  --logo-pill: #ffffff;
+  --logo-tagline: #ffffff;
+  --logo-letter-r: #111111;
+  --logo-letter-a: #111111;
+  --logo-letter-k: #111111;
+  --logo-letter-b: #111111;
+  --logo-mark: #ffffff;
+  --logo-wink: #111111;
+}
+
+/* ---------------------------------------------------------------------------
+   Colorway: "Foundation" — warm greige and cream, colorful alphas.
+   Logo matches public/logo/rakb-logo-gmk-foundation.svg.
+   ------------------------------------------------------------------------ */
+[data-colorway="foundation"][data-theme="wob"],
+[data-colorway="foundation"]:root:not([data-theme]) {
+  --color-bg: #171614;
+  --color-surface: #201e1b;
+  --color-raised: #201e1b;
+  --color-field: #201e1b;
+  --color-text: #eae5e0;
+  --color-ink: #eae5e0;
+  --color-strong: #fffaf4;
+  --dim: #b0a89f;
+  --dimmer: #837b72;
+  --nav-ink: #c2bab1;
+
+  --color-divider: #2c2926;
+  --line-hi: #443f39;
+  --line-focus: #5d564e;
+
+  --color-accent: #c8a07e;
+  --color-accent-2: #d9b696;
+  --color-accent-3: #ecd2b9;
+  --accent-soft-bg: rgba(200, 160, 126, 0.12);
+  --accent-soft-line: rgba(200, 160, 126, 0.28);
+
+  --btn-primary-bg: #eae5e0;
+  --btn-primary-fg: #171614;
+  --btn-primary-bg-hover: #c7c0b8;
+  --btn-secondary-hover-bg: #232120;
+
+  --header-bg: rgba(23, 22, 20, 0.72);
+  --footer-bg: #121110;
+  --glow-accent: rgba(200, 160, 126, 0.16);
+  --glow-dot: 0 0 10px 2px rgba(200, 160, 126, 0.55);
+  --selection: rgba(234, 229, 224, 0.18);
+
+  --shader-bg: #171614;
+  --shader-ink: #eae5e0;
+  --shader-accent: #c8a07e;
+
+  --logo-border: #373634;
+  --logo-plate: #a89c8f;
+  --logo-pill: #eae5e0;
+  --logo-tagline: #eae5e0;
+  --logo-letter-r: #a11d22;
+  --logo-letter-a: #f68623;
+  --logo-letter-k: #00637b;
+  --logo-letter-b: #7fa580;
+  --logo-mark: #c87e74;
+  --logo-wink: #c87e74;
+}
+
+[data-colorway="foundation"][data-theme="bow"] {
+  --color-bg: #f5f1ec;
+  --color-surface: #eae5e0;
+  --color-raised: #fffdfa;
+  --color-field: #fffdfa;
+  --color-text: #373634;
+  --color-ink: #373634;
+  --color-strong: #1c1b1a;
+  --dim: #6b645c;
+  --dimmer: #8d857b;
+  --nav-ink: #5e574f;
+
+  --color-divider: #ddd5cb;
+  --line-hi: #c3b8aa;
+  --line-focus: #a89c8f;
+
+  --color-accent: #8a5a2b;
+  --color-accent-2: #7a4e23;
+  --color-accent-3: #5d3a17;
+  --accent-soft-bg: rgba(168, 156, 143, 0.2);
+  --accent-soft-line: rgba(138, 90, 43, 0.3);
+
+  --btn-primary-bg: #373634;
+  --btn-primary-fg: #eae5e0;
+  --btn-primary-bg-hover: #56534f;
+  --btn-secondary-hover-bg: #e2dbd2;
+
+  --header-bg: rgba(245, 241, 236, 0.75);
+  --footer-bg: #eae5e0;
+  --glow-accent: rgba(138, 90, 43, 0.12);
+  --glow-soft: rgba(55, 54, 52, 0.06);
+  --glow-dot: 0 0 10px 2px rgba(138, 90, 43, 0.3);
+  --selection: rgba(168, 156, 143, 0.35);
+
+  --shader-bg: #f5f1ec;
+  --shader-ink: #373634;
+  --shader-accent: #a89c8f;
+
+  --logo-border: #373634;
+  --logo-plate: #a89c8f;
+  --logo-pill: #eae5e0;
+  --logo-tagline: #eae5e0;
+  --logo-letter-r: #a11d22;
+  --logo-letter-a: #f68623;
+  --logo-letter-k: #00637b;
+  --logo-letter-b: #7fa580;
+  --logo-mark: #c87e74;
+  --logo-wink: #c87e74;
+}
+
+/* ---------------------------------------------------------------------------
+   Colorway: "Harbour" — deep teal-blue on a cool grey plate.
+   Logo matches public/logo/rakb-logo-gmk-a.svg.
+   ------------------------------------------------------------------------ */
+[data-colorway="harbour"][data-theme="wob"],
+[data-colorway="harbour"]:root:not([data-theme]) {
+  --color-bg: #08131a;
+  --color-surface: #0e1e27;
+  --color-raised: #0e1e27;
+  --color-field: #0e1e27;
+  --color-text: #d7dee1;
+  --color-ink: #d7dee1;
+  --color-strong: #f2f7f9;
+  --dim: #9aabb4;
+  --dimmer: #6d818b;
+  --nav-ink: #b3c2c9;
+
+  --color-divider: #162b36;
+  --line-hi: #24424f;
+  --line-focus: #33586a;
+
+  --color-accent: #4fa3c7;
+  --color-accent-2: #7cc0dd;
+  --color-accent-3: #a8d8ef;
+  --accent-soft-bg: rgba(79, 163, 199, 0.12);
+  --accent-soft-line: rgba(79, 163, 199, 0.28);
+
+  --btn-primary-bg: #d7dee1;
+  --btn-primary-fg: #08131a;
+  --btn-primary-bg-hover: #b0babe;
+  --btn-secondary-hover-bg: #11242e;
+
+  --header-bg: rgba(8, 19, 26, 0.72);
+  --footer-bg: #060f14;
+  --glow-accent: rgba(79, 163, 199, 0.18);
+  --glow-dot: 0 0 10px 2px rgba(79, 163, 199, 0.6);
+  --selection: rgba(215, 222, 225, 0.18);
+
+  --shader-bg: #08131a;
+  --shader-ink: #d7dee1;
+  --shader-accent: #4fa3c7;
+
+  --logo-border: #1d6389;
+  --logo-plate: #d7dee1;
+  --logo-pill: #1d6389;
+  --logo-tagline: #1d6389;
+  --logo-letter-r: #d7dee1;
+  --logo-letter-a: #d7dee1;
+  --logo-letter-k: #d7dee1;
+  --logo-letter-b: #d7dee1;
+  --logo-mark: #1d6389;
+  --logo-wink: #d7dee1;
+}
+
+[data-colorway="harbour"][data-theme="bow"] {
+  --color-bg: #f4f8fa;
+  --color-surface: #e8eff2;
+  --color-raised: #ffffff;
+  --color-field: #ffffff;
+  --color-text: #10262f;
+  --color-ink: #10262f;
+  --color-strong: #051419;
+  --dim: #4f6b76;
+  --dimmer: #78909b;
+  --nav-ink: #476370;
+
+  --color-divider: #d6e2e7;
+  --line-hi: #b7c9d1;
+  --line-focus: #90a9b4;
+
+  --color-accent: #1d6389;
+  --color-accent-2: #175372;
+  --color-accent-3: #103e56;
+  --accent-soft-bg: rgba(29, 99, 137, 0.1);
+  --accent-soft-line: rgba(29, 99, 137, 0.26);
+
+  --btn-primary-bg: #1d6389;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg-hover: #17506e;
+  --btn-secondary-hover-bg: #e2ebef;
+
+  --header-bg: rgba(244, 248, 250, 0.75);
+  --footer-bg: #e8eff2;
+  --glow-accent: rgba(29, 99, 137, 0.12);
+  --glow-soft: rgba(16, 38, 47, 0.06);
+  --glow-dot: 0 0 10px 2px rgba(29, 99, 137, 0.35);
+  --selection: rgba(29, 99, 137, 0.18);
+
+  --shader-bg: #f4f8fa;
+  --shader-ink: #10262f;
+  --shader-accent: #1d6389;
+
+  --logo-border: #1d6389;
+  --logo-plate: #d7dee1;
+  --logo-pill: #1d6389;
+  --logo-tagline: #1d6389;
+  --logo-letter-r: #d7dee1;
+  --logo-letter-a: #d7dee1;
+  --logo-letter-k: #d7dee1;
+  --logo-letter-b: #d7dee1;
+  --logo-mark: #1d6389;
+  --logo-wink: #d7dee1;
+}
+
+/* ---------------------------------------------------------------------------
+   Template for the next meetup colorway. Copy, rename, fill in, then set
+   `activeColorway` in src/content/theme.ts. Only the tokens that actually
+   change need to be listed — the rest fall through to the default colorway.
+
+   [data-colorway="<id>"][data-theme="wob"],
+   [data-colorway="<id>"]:root:not([data-theme]) { ... }
+   [data-colorway="<id>"][data-theme="bow"] { ... }
+   ------------------------------------------------------------------------ */
 
 @theme inline {
   --font-sans: var(--font-geist), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --color-bg: #000000;
-  --color-surface: #0a0a0a;
-  --color-ink: #ededed;
-  --color-accent: #5b9dff;
+
+  /* Colours deliberately stay out of the Tailwind theme: they change at runtime
+     with data-theme / data-colorway, so components read them as CSS variables
+     (`text-(--color-text)`, `bg-(--color-surface)`) rather than through
+     generated utilities that would bake one colorway in. */
 
   /* Type scale — rem so it scales with the user's text-size setting. */
   --text-caption: 0.71875rem;
@@ -87,12 +461,12 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: var(--color-scheme);
 }
 
 html,
 body {
-  background: #000000;
+  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -197,12 +571,12 @@ figcaption {
 }
 
 .link-accent {
-  color: #8fbcff;
+  color: var(--color-accent-2);
   font-size: 0.84375rem;
 }
 
 .link-accent:hover {
-  color: #b9d4ff;
+  color: var(--color-accent-3);
 }
 
 :focus {
@@ -215,7 +589,7 @@ figcaption {
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--selection);
 }
 
 .wrap {
@@ -291,7 +665,7 @@ figcaption {
   width: 1100px;
   height: 520px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(91, 157, 255, 0.16), rgba(0, 0, 0, 0) 68%);
+  background: radial-gradient(ellipse at center, var(--glow-accent), transparent 68%);
 }
 
 .glow-soft {
@@ -302,7 +676,7 @@ figcaption {
   width: 900px;
   height: 520px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(ellipse at center, var(--glow-soft), transparent 70%);
 }
 
 .status-dot {
@@ -310,8 +684,8 @@ figcaption {
   height: 6px;
   flex: none;
   border-radius: 999px;
-  background: #5b9dff;
-  box-shadow: 0 0 10px 2px rgba(91, 157, 255, 0.6);
+  background: var(--color-accent);
+  box-shadow: var(--glow-dot);
 }
 
 .band {
@@ -369,7 +743,7 @@ figcaption {
   background: var(--color-surface);
   border: 1px solid var(--color-divider);
   border-radius: 10px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); /* light catching the surface */
+  box-shadow: inset 0 1px 0 var(--inset-hi); /* light catching the surface */
   transition:
     border-color var(--dur-hover) ease,
     background-color var(--dur-hover) ease;
@@ -413,15 +787,15 @@ figcaption {
 }
 
 .btn-primary {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border-color: var(--btn-primary-bg);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #d4d4d4;
-  border-color: #d4d4d4;
-  color: #000000;
+  background: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-bg-hover);
+  color: var(--btn-primary-fg);
 }
 
 .btn-secondary {
@@ -431,9 +805,9 @@ figcaption {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #111111;
+  background: var(--btn-secondary-hover-bg);
   border-color: var(--line-hi);
-  color: #ffffff;
+  color: var(--color-strong);
 }
 
 .tag {
@@ -448,9 +822,9 @@ figcaption {
 }
 
 .tag-accent {
-  background: rgba(91, 157, 255, 0.12);
-  color: #8fbcff;
-  border: 1px solid rgba(91, 157, 255, 0.25);
+  background: var(--accent-soft-bg);
+  color: var(--color-accent-2);
+  border: 1px solid var(--accent-soft-line);
 }
 
 .tag-outline {
@@ -474,7 +848,7 @@ figcaption {
   font-size: 0.875rem;
   color: var(--color-text);
   caret-color: var(--color-text);
-  background: #0a0a0a;
+  background: var(--color-field);
   border: 1px solid var(--color-divider);
   border-radius: 8px;
   transition:
@@ -487,18 +861,18 @@ figcaption {
 }
 
 .input:focus {
-  border-color: #4b4b4b;
+  border-color: var(--line-focus);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+  box-shadow: var(--ring);
 }
 
 /* Inline validation — only after the user has interacted with the field, never on load. */
 .input:user-invalid {
-  border-color: #c2504a;
+  border-color: var(--color-danger);
 }
 
 .input:user-invalid:focus {
-  box-shadow: 0 0 0 3px rgba(194, 80, 74, 0.18);
+  box-shadow: var(--ring-danger);
 }
 
 .table-shell {
@@ -537,7 +911,7 @@ figcaption {
 }
 
 .table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--wash);
 }
 
 .dialog-backdrop {
@@ -547,7 +921,7 @@ figcaption {
   place-items: start center;
   padding: 3rem 1rem;
   overflow: auto;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--scrim);
   backdrop-filter: blur(4px);
   z-index: 60;
 }
@@ -560,10 +934,10 @@ figcaption {
   gap: var(--space-3);
   padding: 1.5rem;
   border-radius: 12px;
-  background: #0a0a0a;
+  background: var(--color-raised);
   border: 1px solid var(--color-divider);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 var(--inset-hi-strong),
     var(--shadow-lg);
   transform-origin: center; /* modal — not anchored to a trigger, stays centered */
 }
@@ -619,10 +993,10 @@ figcaption {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: var(--font-mono);
-  background-color: #0a0a0a;
+  background-color: var(--color-surface);
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(var(--ph-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ph-grid) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -631,14 +1005,14 @@ figcaption {
   width: 100%;
   height: 100%;
   border: 0;
-  filter: invert(0.92) hue-rotate(180deg) saturate(0.7);
+  filter: var(--map-filter);
 }
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(0, 0, 0, 0.72);
+  background: var(--header-bg);
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   /* Scroll-edge effect: the divider only exists once content is actually underneath. */
@@ -660,7 +1034,7 @@ figcaption {
 /* Vibrancy: text over a translucent material gets a touch more contrast, weight and tracking. */
 .nav-links a,
 .mobile-nav a {
-  color: #b8b8b8;
+  color: var(--nav-ink);
   text-decoration: none;
   font-size: 0.84375rem;
   font-weight: 500;
@@ -676,17 +1050,7 @@ figcaption {
 .mobile-nav a:hover,
 .nav-links a[aria-current="page"],
 .mobile-nav a[aria-current="page"] {
-  color: #ffffff;
-}
-
-.logo-mark {
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--color-divider);
-  background: #111;
-  flex: none;
+  color: var(--color-strong);
 }
 
 .vol-badge {
@@ -698,12 +1062,22 @@ figcaption {
   flex: none;
 }
 
-.mobile-nav {
+/* Second header row on narrow screens: scrolling nav + the legend switch. */
+.mobile-bar {
   display: none;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--color-divider);
+  padding-right: 1.5rem;
+}
+
+.mobile-nav {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
   gap: 1.125rem;
   overflow-x: auto;
   padding: 0.5625rem 1.5rem;
-  border-top: 1px solid var(--color-divider);
   scrollbar-width: none;
 }
 
@@ -724,7 +1098,7 @@ figcaption {
 }
 
 .site-footer {
-  background: #050505;
+  background: var(--footer-bg);
   color: var(--dim);
   border-top: 1px solid var(--color-divider);
 }
@@ -734,7 +1108,7 @@ figcaption {
 }
 
 .site-footer a:hover {
-  color: #ffffff;
+  color: var(--color-strong);
 }
 
 .faq-item {
@@ -869,7 +1243,7 @@ figcaption {
 /* Inline text button that must read as a link (inherits the surrounding font). */
 .link-inline {
   font: inherit;
-  color: #8fbcff;
+  color: var(--color-accent-2);
   background: transparent;
   border: 0;
   padding: 0;
@@ -880,7 +1254,7 @@ figcaption {
 }
 
 .link-inline:hover {
-  color: #b9d4ff;
+  color: var(--color-accent-3);
 }
 
 /* Reduced motion: keep opacity/color feedback, drop movement. */
@@ -923,35 +1297,47 @@ figcaption {
 /* Translucent surfaces go frosty/solid when the user asks for it. */
 @media (prefers-reduced-transparency: reduce) {
   .site-header {
-    background: #000000;
+    background: var(--color-bg);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
   .dialog-backdrop {
-    background: rgba(0, 0, 0, 0.92);
+    background: var(--scrim-solid);
     backdrop-filter: none;
   }
 }
 
 /* Defined, contrasting edges when the user asks for more contrast. */
 @media (prefers-contrast: more) {
-  :root {
+  :root,
+  [data-theme="wob"] {
     --color-divider: #3a3a3a;
     --line-hi: #5a5a5a;
     --dim: #c4c4c4;
     --dimmer: #9a9a9a;
+    --nav-ink: #e0e0e0;
+    --line-strong: #6a6a6a;
+  }
+
+  [data-theme="bow"] {
+    --color-divider: #b9b9b9;
+    --line-hi: #8a8a8a;
+    --dim: #3f3f3f;
+    --dimmer: #565656;
+    --nav-ink: #262626;
+    --line-strong: #6a6a6a;
   }
 
   .btn-secondary,
   .input,
   .panel,
   .dialog {
-    border-color: #6a6a6a;
+    border-color: var(--line-strong);
   }
 
   .site-header {
-    background: #000000;
+    background: var(--color-bg);
   }
 }
 
@@ -1000,7 +1386,7 @@ figcaption {
     display: none;
   }
 
-  .mobile-nav {
+  .mobile-bar {
     display: flex;
   }
 
@@ -1013,3 +1399,122 @@ figcaption {
     border-bottom: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Legend switch — WoB / BoW, drawn as two small keycaps.
+   ------------------------------------------------------------------------ */
+.legend-switch {
+  display: inline-flex;
+  gap: 0.125rem;
+  padding: 0.125rem;
+  flex: none;
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  background: var(--color-surface);
+  transition:
+    background-color var(--dur-hover) ease,
+    border-color var(--dur-hover) ease;
+}
+
+.legend-key {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  padding: 0.375rem 0.5rem;
+  color: var(--dimmer);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition:
+    color var(--dur-hover) ease,
+    background-color var(--dur-hover) ease,
+    border-color var(--dur-hover) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.legend-key:hover {
+  color: var(--color-text);
+}
+
+.legend-key:active {
+  transform: scale(0.94);
+}
+
+/* The chosen key sits proud of the plate, like a pressed-in keycap. */
+.legend-key[aria-pressed="true"] {
+  color: var(--color-strong);
+  background: var(--color-raised);
+  border-color: var(--line-hi);
+  box-shadow:
+    inset 0 1px 0 var(--inset-hi-strong),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------------------------------------------------------------------------
+   Logo — inline SVG so the badge follows the theme and colorway.
+   ------------------------------------------------------------------------ */
+.logo-mark {
+  display: block;
+  height: 1.5rem;
+  width: auto;
+  flex: none;
+}
+
+/* Header lockup. 2.75rem is the floor at which the tagline still resolves —
+   below that it turns into a smear, so shrink the header before this. */
+.logo-lockup {
+  display: block;
+  height: 2.75rem;
+  width: auto;
+  flex: none;
+}
+
+/* Full badge, sized by width where there is a column to fill. */
+.logo-badge {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+}
+
+/* Colour transition only while a switch is in flight — never on load, and
+   never on hover states that already have their own timing. */
+[data-theme-switching] *,
+[data-theme-switching] *::before,
+[data-theme-switching] *::after {
+  transition:
+    background-color var(--dur-theme) ease,
+    border-color var(--dur-theme) ease,
+    color var(--dur-theme) ease,
+    fill var(--dur-theme) ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legend-key:active {
+    transform: none;
+  }
+
+  [data-theme-switching] *,
+  [data-theme-switching] *::before,
+  [data-theme-switching] *::after {
+    transition: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .legend-key {
+    min-height: 40px;
+    padding-inline: 0.625rem;
+  }
+}
+
+/* Below the nav breakpoint the switch moves to the second header row. Declared
+   after `.legend-switch` so it wins on order as well as intent. */
+@media (max-width: 71.25rem) {
+  .legend-switch-desktop {
+    display: none;
+  }
+}
+

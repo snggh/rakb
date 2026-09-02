@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { LegendSwitch } from "@/components/legend-switch";
+import { LogoBadge } from "@/components/logo";
 import { event } from "@/content/event";
 import { navItems } from "@/lib/site";
 
@@ -37,23 +38,14 @@ export function SiteHeader() {
 
   return (
     <header ref={ref} className="site-header">
-      <div className="wrap flex h-16 items-center gap-7">
+      <div className="wrap flex h-16 items-center gap-5">
         <Link
           href="/"
           aria-label="Ruang Aksara Keyboard"
           className="mr-auto flex items-center gap-2.5 no-underline"
         >
-          <span className="logo-mark">
-            <Image
-              src="/logo.jpg"
-              alt=""
-              width={28}
-              height={28}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </span>
-          <span className="text-brand font-semibold tracking-display">Ruang Aksara Keyboard</span>
+          {/* The badge carries the name, so no wordmark beside it. */}
+          <LogoBadge className="logo-lockup" decorative />
           <span className="mono vol-badge">{event.volume}</span>
         </Link>
         <nav className="nav-links" aria-label="Primary">
@@ -67,22 +59,26 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
+        <LegendSwitch className="legend-switch-desktop" />
         <Link href="/register" className="btn btn-primary px-3.5! py-1.75!">
           Register
         </Link>
       </div>
-      <nav className="mobile-nav" aria-label="Mobile">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="shrink-0 whitespace-nowrap"
-            aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <div className="mobile-bar">
+        <nav className="mobile-nav" aria-label="Mobile">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="shrink-0 whitespace-nowrap"
+              aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <LegendSwitch className="legend-switch-mobile" />
+      </div>
     </header>
   );
 }

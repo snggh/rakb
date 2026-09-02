@@ -15,3 +15,5 @@ export { vendors } from "./vendors";
 export type { Vendor } from "./vendors";
 export { sampleBuild } from "./calculator";
 export type { BuildLine } from "./calculator";
+export { activeColorway, colorways, defaultLegendMode, legendModes } from "./theme";
+export type { Colorway, LegendMode } from "./theme";

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoBadge } from "@/components/logo";
 import { site } from "@/lib/site";
 
 export function SiteFooter() {
@@ -6,9 +7,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(12.5rem,1fr))] gap-8 py-12">
         <div>
-          <div className="mb-2.5 text-body-sm font-semibold tracking-display text-(--color-text)">
-            {site.name}
-          </div>
+          <LogoBadge className="logo-badge mb-4" />
           <p className="m-0 max-w-32ch text-ui leading-body text-(--dimmer)">
             A mechanical keyboard community. Meetups, group buys, and learning together.
           </p>

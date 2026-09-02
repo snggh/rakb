@@ -139,9 +139,30 @@ export function HeroShader({ className, interactive = true }: HeroShaderProps) {
     const uInk = gl.getUniformLocation(program, "u_ink");
     const uAccent = gl.getUniformLocation(program, "u_accent");
 
-    const bg = hexToRgb("#000000");
-    const ink = hexToRgb("#ededed");
-    const accent = hexToRgb("#ffffff");
+    // Palette comes from the active theme/colorway, and is re-read when it
+    // changes so the hero does not stay on the old board colour.
+    const styles = getComputedStyle(document.documentElement);
+    const readToken = (name: string, fallback: string) =>
+      hexToRgb((styles.getPropertyValue(name) || fallback).trim());
+
+    let bg = readToken("--shader-bg", "#000000");
+    let ink = readToken("--shader-ink", "#ededed");
+    let accent = readToken("--shader-accent", "#ffffff");
+
+    const syncPalette = () => {
+      const next = getComputedStyle(document.documentElement);
+      const read = (name: string, fallback: string) =>
+        hexToRgb((next.getPropertyValue(name) || fallback).trim());
+      bg = read("--shader-bg", "#000000");
+      ink = read("--shader-ink", "#ededed");
+      accent = read("--shader-accent", "#ffffff");
+    };
+
+    const themeObserver = new MutationObserver(syncPalette);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "data-colorway"],
+    });
 
     const ptr = { x: 0.72, y: 0.45 };
     const target = { x: 0.72, y: 0.45 };
@@ -202,6 +223,7 @@ export function HeroShader({ className, interactive = true }: HeroShaderProps) {
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      themeObserver.disconnect();
       parent.removeEventListener("pointermove", onMove);
       gl.deleteProgram(program);
       gl.deleteShader(vs);
