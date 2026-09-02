@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ImageSlot } from "@/components/image-slot";
+import { MascotGmkA } from "@/components/mascot-gmk-a";
 import { Reveal } from "@/components/reveal";
 import { VenueMap } from "@/components/venue-map";
 import { event } from "@/content/event";
@@ -45,7 +46,11 @@ export default function HomePage() {
               </div>
             </Reveal>
             <Reveal delay={0.08}>
-              <ImageSlot src={event.heroImage} alt="RAKB mascot" ratio="4 / 3" fit="contain" bare />
+              <figure>
+                <div className="relative" style={{ aspectRatio: "4 / 3" }}>
+                  <MascotGmkA className="absolute inset-0 h-full w-full" />
+                </div>
+              </figure>
             </Reveal>
           </div>
         </div>
