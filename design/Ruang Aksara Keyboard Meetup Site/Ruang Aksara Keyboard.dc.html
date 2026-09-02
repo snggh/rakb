@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-3222e7b1-6ca4-4cca-8ff8-76569b805266/styles.css">
+<script src="_ds/nocturne-3222e7b1-6ca4-4cca-8ff8-76569b805266/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: #000000;
+    --color-surface: #0a0a0a;
+    --color-text: #ededed;
+    --color-divider: #1f1f1f;
+    --color-accent: #5b9dff;
+    --font-heading: 'Geist', system-ui, -apple-system, sans-serif;
+    --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;
+    --dim: #a1a1a1;
+    --dimmer: #6f6f6f;
+    --line-hi: #333333;
+  }
+  html, body { background: #000000; color: var(--color-text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 500; letter-spacing: -0.02em; color: var(--color-text); }
+  a { color: var(--color-text); text-decoration: none; transition: color .15s ease; }
+  a:hover { color: var(--dim); }
+  .rakb-wrap { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  .rakb-mono { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmer); }
+  .rakb-nav-links { display: flex; gap: 22px; flex-wrap: nowrap; white-space: nowrap; }
+  .rakb-nav-links a { font-size: 13.5px; color: var(--dim); }
+  .rakb-nav-links a:hover { color: #ffffff; }
+  .rakb-nav-links a[aria-current="page"] { color: #ffffff; }
+  .grayscale { position: relative; overflow: hidden; }
+  .rakb-cell { padding: 26px 24px; border-right: 1px solid var(--color-divider); }
+  .rakb-panel { background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 10px; transition: border-color .15s ease, background .15s ease; }
+  .rakb-panel:hover { border-color: var(--line-hi); }
+  .btn { font-family: var(--font-body); border-radius: 8px; font-size: 14px; font-weight: 500; letter-spacing: -0.01em; transition: all .15s ease; }
+  .btn-primary { background: #ffffff; color: #000000; border: 1px solid #ffffff; }
+  .btn-primary:hover { background: #d4d4d4; border-color: #d4d4d4; color: #000000; }
+  .btn-secondary { background: transparent; color: var(--color-text); border: 1px solid var(--color-divider); }
+  .btn-secondary:hover { background: #111111; border-color: var(--line-hi); color: #ffffff; }
+  .btn:disabled { opacity: 0.4; }
+  .tag { border-radius: 999px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .tag-accent { background: rgba(91,157,255,0.12); color: #8fbcff; border: 1px solid rgba(91,157,255,0.25); }
+  .tag-outline { background: transparent; color: var(--dim); border: 1px solid var(--color-divider); }
+  .input { background: #0a0a0a; border: 1px solid var(--color-divider); border-radius: 8px; color: var(--color-text); font-family: var(--font-body); font-size: 14px; }
+  .input:focus { border-color: #4b4b4b; outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,0.06); }
+  .field label { font-size: 13px; color: var(--dim); }
+  .table { border-color: var(--color-divider); }
+  .table th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmer); border-color: var(--color-divider); background: transparent; }
+  .table td { border-color: var(--color-divider); font-size: 14px; }
+  .dialog { background: #0a0a0a; border: 1px solid var(--color-divider); border-radius: 12px; }
+  .dialog-backdrop { background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); }
+  figcaption { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dimmer); padding-top: 8px; }
+  details > summary { cursor: pointer; list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] > summary .rakb-plus { transform: rotate(45deg); }
+  .rakb-plus { transition: transform .18s ease; display: inline-block; color: var(--dim); }
+  ::selection { background: rgba(255,255,255,0.16); }
+  @media (max-width: 1140px) {
+    .rakb-hero-grid { grid-template-columns: 1fr !important; }
+    .rakb-nav-links { display: none !important; }
+    .rakb-mobilenav { display: flex !important; }
+    .rakb-cell { border-right: none; border-bottom: 1px solid var(--color-divider); }
+  }
+</style>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#000000"></rect><rect x="58" y="58" width="84" height="84" rx="12" fill="none" stroke="#333333" stroke-width="2"></rect><text x="100" y="115" font-family="system-ui, sans-serif" font-size="40" font-weight="600" text-anchor="middle" fill="#ededed">RA</text></svg></template>
+</helmet>
+
+<div style="min-height:100vh;background:#000;color:var(--color-text);font-family:var(--font-body)">
+
+  <div style="position:sticky;top:0;z-index:20;background:rgba(0,0,0,0.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--color-divider)">
+    <div class="rakb-wrap" style="display:flex;align-items:center;gap:28px;height:64px">
+      <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;margin-right:auto">
+        <img src="uploads/photos-1787322893407-n8vb.jpg" alt="Ruang Aksara Keyboard" style="width:28px;height:28px;object-fit:cover;border-radius:6px;border:1px solid var(--color-divider)">
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:14.5px;letter-spacing:-0.02em">Ruang Aksara Keyboard</span>
+        <span class="rakb-mono" style="border:1px solid var(--color-divider);border-radius:5px;padding:2px 6px;font-size:10px;white-space:nowrap;flex:none">Vol. 02</span>
+      </a>
+      <nav class="rakb-nav-links">
+        <a href="#" onClick="{{ goHome }}" aria-current="{{ curHome }}">Home</a>
+        <a href="#" onClick="{{ goRundown }}" aria-current="{{ curRundown }}">Schedule</a>
+        <a href="#" onClick="{{ goLokasi }}" aria-current="{{ curLokasi }}">Getting There</a>
+        <a href="#" onClick="{{ goRules }}" aria-current="{{ curRules }}">Rules</a>
+        <a href="#" onClick="{{ goGaleri }}" aria-current="{{ curGaleri }}">Gallery</a>
+        <a href="#" onClick="{{ goKomunitas }}" aria-current="{{ curKomunitas }}">Community</a>
+        <a href="#" onClick="{{ goTools }}" aria-current="{{ curTools }}">Tools</a>
+        <a href="#" onClick="{{ goFaq }}" aria-current="{{ curFaq }}">FAQ</a>
+      </nav>
+      <button class="btn btn-primary" onClick="{{ goDaftar }}" style="padding:7px 14px">Register</button>
+    </div>
+    <div class="rakb-mobilenav" style="display:none;gap:18px;overflow-x:auto;padding:10px 24px;border-top:1px solid var(--color-divider)">
+      <a href="#" onClick="{{ goHome }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Home</a>
+      <a href="#" onClick="{{ goRundown }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Schedule</a>
+      <a href="#" onClick="{{ goLokasi }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Getting There</a>
+      <a href="#" onClick="{{ goRules }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Rules</a>
+      <a href="#" onClick="{{ goGaleri }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Gallery</a>
+      <a href="#" onClick="{{ goKomunitas }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Community</a>
+      <a href="#" onClick="{{ goTools }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">Tools</a>
+      <a href="#" onClick="{{ goFaq }}" style="font-size:12.5px;color:var(--dim);white-space:nowrap">FAQ</a>
+    </div>
+  </div>
+
+  <!-- ─────────── HOME ─────────── -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Home">
+    <div style="position:relative;overflow:hidden;border-bottom:1px solid var(--color-divider)">
+      <div style="position:absolute;top:-260px;left:50%;transform:translateX(-50%);width:1100px;height:520px;background:radial-gradient(ellipse at center,rgba(91,157,255,0.16),rgba(0,0,0,0) 68%);pointer-events:none"></div>
+      <div class="rakb-wrap" style="position:relative;padding-top:88px;padding-bottom:72px">
+        <div class="rakb-hero-grid" style="display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
+              <span style="width:6px;height:6px;border-radius:999px;background:#5b9dff;box-shadow:0 0 10px 2px rgba(91,157,255,0.6)"></span>
+              <span class="rakb-mono">In preparation · Vol. 02</span>
+            </div>
+            <h1 style="font-size:clamp(40px,6.2vw,76px);line-height:1.02;letter-spacing:-0.045em;font-weight:600;margin:0 0 22px">Ruang Aksara<br>Keyboard<br><span style="color:var(--dimmer)">Meetup Vol. 2</span></h1>
+            <p style="font-size:17.5px;line-height:1.6;color:var(--dim);max-width:46ch;margin:0 0 32px;text-wrap:pretty">One room, a lot of boards. Bring your build, run sound tests, trade keycaps, and meet people who take switches as seriously as you do.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-primary" onClick="{{ goDaftar }}" style="padding:10px 18px">{{ ctaLabel }}</button>
+              <button class="btn btn-secondary" onClick="{{ goRundown }}" style="padding:10px 18px">See the schedule</button>
+            </div>
+          </div>
+          <div class="rakb-panel grayscale" style="aspect-ratio:4/3;padding:0">
+            <div style="position:absolute;inset:0;border-radius:10px;overflow:hidden">
+              <image-slot id="rakb-hero" shape="rect" fit="cover" placeholder="Hero photo — Meetup Vol. 1"></image-slot>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-bottom:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));padding:0">
+        <div class="rakb-cell">
+          <div class="rakb-mono" style="margin-bottom:10px">Date</div>
+          <div style="font-family:var(--font-heading);font-weight:500;font-size:21px;letter-spacing:-0.02em">{{ eventDateLabel }}</div>
+          <div style="font-size:13px;color:var(--dimmer);margin-top:6px">Saturday, 09.30 – 17.00</div>
+        </div>
+        <div class="rakb-cell">
+          <div class="rakb-mono" style="margin-bottom:10px">Location</div>
+          <div style="font-family:var(--font-heading);font-weight:500;font-size:21px;letter-spacing:-0.02em">BMW Motorrad Flagship</div>
+          <div style="font-size:13px;color:var(--dimmer);margin-top:6px">Jl. TB Simatupang No. 100, Cilandak</div>
+        </div>
+        <div class="rakb-cell" style="border-right:none">
+          <div class="rakb-mono" style="margin-bottom:10px">Capacity</div>
+          <div style="font-family:var(--font-heading);font-weight:500;font-size:21px;letter-spacing:-0.02em">± 80 people</div>
+          <div style="font-size:13px;color:var(--dimmer);margin-top:6px">Including 20 display tables</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rakb-wrap" style="padding-top:72px;padding-bottom:72px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px">
+        <div>
+          <div class="rakb-mono" style="margin-bottom:18px">Announcement</div>
+          <p style="font-size:16px;line-height:1.65;color:var(--dim);white-space:pre-line;max-width:52ch;text-wrap:pretty">{{ announcement }}</p>
+          <p style="font-size:13px;color:var(--dimmer);margin-bottom:28px">— The organisers, Ruang Aksara Keyboard</p>
+          <div class="rakb-panel grayscale" style="aspect-ratio:3/2">
+            <div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="rakb-ann" shape="rect" placeholder="Photo from Vol. 1"></image-slot></div>
+          </div>
+        </div>
+        <div>
+          <div class="rakb-mono" style="margin-bottom:18px">What happens in the room</div>
+          <div style="display:grid;gap:0">
+            <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:34px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--color-divider)">
+                <div style="font-family:var(--mono);font-size:12px;color:var(--dimmer);padding-top:2px">{{ h.no }}</div>
+                <div>
+                  <div style="font-family:var(--font-heading);font-weight:500;font-size:16px;letter-spacing:-0.015em;margin-bottom:3px">{{ h.title }}</div>
+                  <div style="font-size:13.5px;line-height:1.6;color:var(--dim)">{{ h.body }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="padding-top:56px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px">
+          <h2 style="margin:0;font-size:34px;letter-spacing:-0.03em">Getting there</h2>
+          <a href="#" onClick="{{ goLokasi }}" style="font-size:13.5px;color:#8fbcff">Full access details →</a>
+        </div>
+        <p style="max-width:56ch;color:var(--dim);margin-bottom:28px">Vol. 2 runs at the <strong style="color:var(--color-text);font-weight:500">BMW Motorrad Indonesia Flagship Store</strong>, Jl. TB Simatupang No. 100, Cilandak Barat, South Jakarta 12430.</p>
+      </div>
+      <div class="rakb-wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;padding-bottom:72px">
+        <div class="rakb-panel" style="aspect-ratio:16/10;overflow:hidden">
+          <iframe title="Meetup area map" src="https://maps.google.com/maps?q=BMW+Motorrad+Indonesia+Flagship+Store,+Jl.+TB+Simatupang+No.100,+Cilandak+Barat,+Jakarta+Selatan&amp;z=16&amp;output=embed" style="width:100%;height:100%;border:0;display:block;filter:invert(0.92) hue-rotate(180deg) saturate(0.7)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div style="display:grid;align-content:start">
+          <sc-for list="{{ transport }}" as="t" hint-placeholder-count="4">
+            <div style="border-top:1px solid var(--color-divider);padding:16px 0">
+              <div class="rakb-mono" style="margin-bottom:6px">{{ t.kind }}</div>
+              <div style="font-family:var(--font-heading);font-weight:500;font-size:16px;letter-spacing:-0.015em">{{ t.name }}</div>
+              <div style="font-size:13.5px;line-height:1.6;color:var(--dim)">{{ t.body }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="padding-top:56px;padding-bottom:72px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px">
+          <h2 style="margin:0;font-size:34px;letter-spacing:-0.03em">From Vol. 1</h2>
+          <a href="#" onClick="{{ goGaleri }}" style="font-size:13.5px;color:#8fbcff">All photos →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+          <div class="rakb-panel grayscale" style="aspect-ratio:1/1"><div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="rakb-h1" shape="rect" placeholder="Vol. 1"></image-slot></div></div>
+          <div class="rakb-panel grayscale" style="aspect-ratio:1/1"><div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="rakb-h2" shape="rect" placeholder="Vol. 1"></image-slot></div></div>
+          <div class="rakb-panel grayscale" style="aspect-ratio:1/1"><div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="rakb-h3" shape="rect" placeholder="Vol. 1"></image-slot></div></div>
+          <div class="rakb-panel grayscale" style="aspect-ratio:1/1"><div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="rakb-h4" shape="rect" placeholder="Vol. 1"></image-slot></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--color-divider);position:relative;overflow:hidden">
+      <div style="position:absolute;bottom:-320px;left:50%;transform:translateX(-50%);width:900px;height:520px;background:radial-gradient(ellipse at center,rgba(255,255,255,0.07),rgba(0,0,0,0) 70%);pointer-events:none"></div>
+      <div class="rakb-wrap" style="position:relative;padding-top:64px;padding-bottom:24px">
+        <h2 style="margin:0 0 10px;font-size:34px;letter-spacing:-0.03em">Vendors &amp; supporters</h2>
+        <p style="max-width:54ch;margin:0;color:var(--dim)">Shops, artisans, and friends of the community who supplied prizes, parts, and equipment. Slots for Vol. 2 are open.</p>
+      </div>
+      <div class="rakb-wrap" style="position:relative;padding-bottom:36px;padding-top:28px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px">
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv1" shape="rect" placeholder="Logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv2" shape="rect" placeholder="Logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv3" shape="rect" placeholder="Logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv4" shape="rect" placeholder="Logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv5" shape="rect" placeholder="Logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-hv6" shape="rect" placeholder="Logo"></image-slot></div>
+        </div>
+      </div>
+      <div class="rakb-wrap" style="position:relative;padding-bottom:72px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" onClick="{{ goDaftar }}" style="padding:10px 18px">Become a supporter</button>
+          <button class="btn btn-secondary" onClick="{{ goKomunitas }}" style="padding:10px 18px">About the community</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── REGISTER ─────────── -->
+  <sc-if value="{{ isDaftar }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Register">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:80px;max-width:900px">
+      <div class="rakb-mono" style="margin-bottom:14px">Registration · Vol. 02</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 14px">Claim your slot</h1>
+      <p style="max-width:54ch;color:var(--dim);font-size:16px;line-height:1.65;margin-bottom:40px">Display tables are limited, so tell us how many boards you're bringing and attach your proof of transfer. Confirmation goes out by email or WhatsApp.</p>
+
+      <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+        <div class="rakb-panel" style="padding:32px;max-width:560px">
+          <h3 style="margin:0 0 8px;font-size:22px">You're on the list. See you in the room.</h3>
+          <p style="font-size:14px;color:var(--dim);line-height:1.6;margin-bottom:20px">We'll send the venue details and the final schedule once the date is locked. Keep a screenshot of this as your registration record.</p>
+          <button class="btn btn-secondary" onClick="{{ resetForm }}" style="padding:9px 16px">Register someone else</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ submitForm }}" class="rakb-panel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;padding:32px">
+        <div class="field">
+          <label>Full name or nickname</label>
+          <input class="input" type="text" required="required" placeholder="Your name">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input class="input" type="email" required="required" placeholder="name@email.com">
+        </div>
+        <div class="field">
+          <label>WhatsApp number</label>
+          <input class="input" type="tel" placeholder="08xx xxxx xxxx">
+        </div>
+        <div class="field">
+          <label>Discord ID (optional)</label>
+          <input class="input" type="text" placeholder="username#0000">
+        </div>
+        <div class="field">
+          <label>How many keyboards are you bringing?</label>
+          <input class="input" type="number" min="0" max="5" step="1" defaultValue="0">
+          <div style="font-size:11.5px;margin-top:6px;color:var(--dimmer)">0 if you're coming to look and type. Maximum 5 per person.</div>
+        </div>
+        <div class="field">
+          <label>Proof of transfer</label>
+          <input class="input" type="file" accept="image/*,.pdf" style="padding:7px 10px">
+          <div style="font-size:11.5px;margin-top:6px;color:var(--dimmer)">Upload the payment receipt — image or PDF.</div>
+        </div>
+        <div style="grid-column:1/-1;border-top:1px solid var(--color-divider);padding-top:22px">
+          <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;cursor:pointer;color:var(--dim)">
+            <input type="checkbox" checked="{{ accepted }}" onChange="{{ toggleAccept }}" onClick="{{ onCheckClick }}" style="width:16px;height:16px;margin-top:2px;accent-color:#ffffff;flex:none">
+            <span>I have read and accept the <a href="#" onClick="{{ openTerms }}" style="color:#8fbcff;text-decoration:underline;text-underline-offset:2px">terms and conditions</a> — the meetup rules for the day.</span>
+          </label>
+        </div>
+        <div style="grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <button class="btn btn-primary" type="submit" disabled="{{ notAccepted }}" style="padding:10px 18px">Submit registration</button>
+          <span style="font-size:12px;color:var(--dimmer)">Your data is used for this event only.</span>
+        </div>
+      </form>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ termsOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="dialog-backdrop" style="z-index:60;overflow:auto;align-items:start;padding-top:48px;padding-bottom:48px">
+        <div class="dialog" style="width:min(680px,100%);max-height:80vh;overflow:auto">
+          <div class="dialog-title" style="font-size:18px;letter-spacing:-0.02em">Terms &amp; conditions</div>
+          <div class="dialog-body" onScroll="{{ onTermsScroll }}" style="overflow:auto;max-height:52vh">
+            <p style="margin-bottom:16px;color:var(--dim);font-size:14px;line-height:1.6">These are the meetup rules. Registering means you agree to follow them for the whole day; organisers may ask anyone who ignores them to leave.</p>
+            <sc-for list="{{ rules }}" as="r" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:32px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--color-divider)">
+                <div style="font-family:var(--mono);font-size:12px;color:var(--dimmer);padding-top:2px">{{ r.no }}</div>
+                <div>
+                  <div style="font-family:var(--font-heading);font-weight:500;font-size:15px;margin-bottom:4px">{{ r.title }}</div>
+                  <div style="font-size:13.5px;line-height:1.6;color:var(--dim)">{{ r.body }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <p style="font-size:13px;line-height:1.6;color:var(--dim);border-top:1px solid var(--color-divider);padding-top:14px;margin-top:14px">Harassment, theft, intoxication, and handling someone's board after being asked not to end your attendance immediately and are not invited back. Photos of people require consent. Your registration data is used for this event only.</p>
+          </div>
+          <div class="dialog-actions" style="align-items:center">
+            <span style="font-size:12px;margin-right:auto;color:var(--dimmer)">{{ termsHint }}</span>
+            <button class="btn btn-secondary" onClick="{{ closeTerms }}" style="padding:8px 14px">Close</button>
+            <button class="btn btn-primary" onClick="{{ acceptTerms }}" disabled="{{ notTermsRead }}" style="padding:8px 14px">Accept &amp; continue</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── SCHEDULE ─────────── -->
+  <sc-if value="{{ isRundown }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Schedule">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:80px">
+      <div class="rakb-mono" style="margin-bottom:14px">Schedule</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 14px">Run of the day</h1>
+      <p style="max-width:56ch;color:var(--dim);margin-bottom:14px">The schedule below is an example and may change. The final version is locked once the venue and headcount are confirmed.</p>
+      <p style="margin-bottom:32px"><span class="tag tag-outline">Draft — not final</span></p>
+      <div class="rakb-panel" style="overflow:hidden;padding:0">
+        <table class="table" style="margin:0">
+          <thead>
+            <tr><th style="width:110px">Time</th><th>Session</th><th style="width:170px">Room</th></tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rundown }}" as="r" hint-placeholder-count="8">
+              <tr>
+                <td style="font-family:var(--mono);font-size:13px;color:var(--color-text)">{{ r.time }}</td>
+                <td>
+                  <div style="font-weight:500">{{ r.title }}</div>
+                  <div style="font-size:12.5px;color:var(--dimmer)">{{ r.note }}</div>
+                </td>
+                <td style="font-size:13px;color:var(--dim)">{{ r.room }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── GETTING THERE ─────────── -->
+  <sc-if value="{{ isLokasi }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Getting There">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:56px">
+      <div class="rakb-mono" style="margin-bottom:14px">Location &amp; access</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 18px">How to reach the room</h1>
+      <p style="max-width:56ch;font-size:17px;line-height:1.6;margin:0 0 12px"><strong style="font-weight:500">BMW Motorrad Indonesia Flagship Store</strong><br><span style="color:var(--dim)">Jl. TB Simatupang No. 100, Cilandak Barat, South Jakarta 12430</span></p>
+      <p style="max-width:56ch;color:var(--dim)">A five-storey building on TB Simatupang with the bike-rack facade — hard to miss. The exact entrance and floor for the meetup are confirmed closer to the date.</p>
+    </div>
+    <div style="border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));padding:0">
+        <sc-for list="{{ transport }}" as="t" hint-placeholder-count="4">
+          <div class="rakb-cell" style="padding-top:30px;padding-bottom:30px">
+            <div class="rakb-mono" style="margin-bottom:12px">{{ t.kind }}</div>
+            <div style="font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.02em;margin-bottom:8px">{{ t.name }}</div>
+            <div style="font-size:13.5px;line-height:1.6;color:var(--dim)">{{ t.body }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div class="rakb-wrap" style="padding-top:48px;padding-bottom:80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px">
+      <div>
+        <div class="rakb-panel" style="aspect-ratio:16/10;overflow:hidden">
+          <iframe title="Venue map" src="https://maps.google.com/maps?q=BMW+Motorrad+Indonesia+Flagship+Store,+Jl.+TB+Simatupang+No.100,+Cilandak+Barat,+Jakarta+Selatan&amp;z=16&amp;output=embed" style="width:100%;height:100%;border:0;display:block;filter:invert(0.92) hue-rotate(180deg) saturate(0.7)" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div style="font-size:11.5px;margin-top:8px;color:var(--dimmer)">Showing the general area — the exact pin is added once the venue is final.</div>
+      </div>
+      <div>
+        <h4 style="font-size:18px;margin:0 0 14px">Arrival notes</h4>
+        <ul style="font-size:14px;line-height:1.6;color:var(--dim);padding-left:18px;margin:0;display:grid;gap:10px">
+          <li>Check in at the front desk with your confirmation email.</li>
+          <li>Carry your keyboard in a bag or case; we provide table mats and power.</li>
+          <li>Bring your own deskmat and cable extension if you have preferences.</li>
+          <li>Parking is limited — public transport or ride hailing is recommended.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── RULES ─────────── -->
+  <sc-if value="{{ isRules }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Rules">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:48px">
+      <div class="rakb-mono" style="margin-bottom:14px">Meetup rules</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 18px">House rules</h1>
+      <p style="max-width:58ch;color:var(--dim);line-height:1.65">Short list, mostly common sense. It exists so that eighty people and a few hundred thousand rupiah worth of boards can share one room without incident. Registering means you agree to it.</p>
+    </div>
+    <div class="rakb-wrap" style="padding-bottom:16px">
+      <sc-for list="{{ rules }}" as="r" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:52px 1fr;gap:20px;padding:26px 0;border-top:1px solid var(--color-divider)">
+          <div style="font-family:var(--mono);font-size:13px;color:var(--dimmer);padding-top:4px">{{ r.no }}</div>
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:500;font-size:20px;letter-spacing:-0.02em;margin-bottom:8px">{{ r.title }}</div>
+            <div style="font-size:14px;line-height:1.65;color:var(--dim);max-width:68ch">{{ r.body }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div class="rakb-wrap" style="padding-top:32px;padding-bottom:80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+      <div class="rakb-panel" style="padding:28px">
+        <h4 style="font-size:17px;margin:0 0 10px">Zero tolerance</h4>
+        <p style="font-size:14px;line-height:1.65;color:var(--dim);margin:0;max-width:52ch">Harassment, theft, intoxication, and handling someone's board after being asked not to all end the same way: you're asked to leave and you're not invited back. Organisers wear name tags — report anything to them directly.</p>
+      </div>
+      <div class="rakb-panel" style="padding:28px">
+        <h4 style="font-size:17px;margin:0 0 10px">Questions before you come?</h4>
+        <p style="font-size:14px;line-height:1.65;color:var(--dim);max-width:52ch;margin:0 0 18px">If something here is unclear, ask before the day rather than at the door.</p>
+        <button class="btn btn-secondary" onClick="{{ goFaq }}" style="padding:9px 16px">Read the FAQ</button>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── GALLERY ─────────── -->
+  <sc-if value="{{ isGaleri }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Gallery">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:36px">
+      <div class="rakb-mono" style="margin-bottom:14px">Gallery</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 14px">Meetup Vol. 1</h1>
+      <p style="max-width:54ch;color:var(--dim)">Documentation from the first meetup. Drag your own photos onto any frame to fill it, or send them to the organisers to be included.</p>
+    </div>
+    <div class="rakb-wrap" style="padding-bottom:80px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
+        <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="9">
+          <figure style="margin:0">
+            <div class="rakb-panel grayscale" style="aspect-ratio:4/3">
+              <div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="{{ g.id }}" shape="rect" placeholder="{{ g.cap }}"></image-slot></div>
+            </div>
+            <figcaption>{{ g.cap }}</figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── COMMUNITY ─────────── -->
+  <sc-if value="{{ isKomunitas }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Community">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:56px">
+      <div class="rakb-mono" style="margin-bottom:14px">About us</div>
+      <h1 style="font-size:clamp(34px,5.4vw,58px);line-height:1.04;letter-spacing:-0.04em;font-weight:600;margin:0 0 24px;max-width:22ch">A collective movement around mechanical keyboards</h1>
+      <p style="font-size:18px;line-height:1.6;color:var(--dim);max-width:52ch;text-wrap:pretty">Ruang Aksara Keyboard is a collective movement built around bringing people together through mechanical keyboards.</p>
+      <p style="font-size:13px;color:var(--dimmer);max-width:52ch">The full profile — history, vision, and scope of activities — is still being written; this section is set up to take it.</p>
+    </div>
+    <div style="border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));padding:0">
+        <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+          <div class="rakb-cell" style="padding-top:30px;padding-bottom:30px">
+            <div style="font-family:var(--font-heading);font-weight:500;font-size:18px;letter-spacing:-0.02em;margin-bottom:8px">{{ p.title }}</div>
+            <div style="font-size:13.5px;line-height:1.6;color:var(--dim)">{{ p.body }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div class="rakb-wrap" style="padding-top:56px;padding-bottom:56px">
+      <h2 style="margin:0 0 26px;font-size:34px;letter-spacing:-0.03em">The team</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px">
+        <sc-for list="{{ members }}" as="m" hint-placeholder-count="6">
+          <div>
+            <div class="rakb-panel grayscale" style="aspect-ratio:1/1;margin-bottom:12px">
+              <div style="position:absolute;inset:0;border-radius:10px;overflow:hidden"><image-slot id="{{ m.id }}" shape="rect" placeholder="Photo"></image-slot></div>
+            </div>
+            <div style="font-family:var(--font-heading);font-weight:500;font-size:15.5px;letter-spacing:-0.015em">{{ m.name }}</div>
+            <div class="rakb-mono" style="margin-top:4px">{{ m.role }}</div>
+            <div style="font-size:12.5px;color:var(--dimmer);margin-top:2px">{{ m.kb }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size:12px;color:var(--dimmer);margin-top:18px">Names and roles above are placeholders — replace with the real team.</p>
+    </div>
+
+    <div style="border-top:1px solid var(--color-divider)">
+      <div class="rakb-wrap" style="padding-top:56px;padding-bottom:80px">
+        <h2 style="margin:0 0 10px;font-size:34px;letter-spacing:-0.03em">Sponsors &amp; vendors</h2>
+        <p style="max-width:52ch;color:var(--dim);margin-bottom:26px">Vol. 1 ran on support from shops, artisans, and friends who supplied prizes and equipment. Slots for Vol. 2 are open.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:30px">
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-sp1" shape="rect" placeholder="Sponsor logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-sp2" shape="rect" placeholder="Sponsor logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-sp3" shape="rect" placeholder="Sponsor logo"></image-slot></div>
+          <div class="rakb-panel" style="aspect-ratio:5/3;position:relative"><image-slot id="rakb-sp4" shape="rect" placeholder="Sponsor logo"></image-slot></div>
+        </div>
+        <button class="btn btn-primary" onClick="{{ goDaftar }}" style="padding:10px 18px">Sponsor Vol. 2</button>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── TOOLS ─────────── -->
+  <sc-if value="{{ isTools }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="Tools">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:48px">
+      <div class="rakb-mono" style="margin-bottom:14px">Coming soon</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 18px">Tools for the hobby</h1>
+      <p style="max-width:58ch;color:var(--dim);line-height:1.65">Two questions come up constantly in the group chat: where to buy parts safely, and what a build actually costs. Both are being built as permanent parts of this site.</p>
+    </div>
+    <div class="rakb-wrap" style="padding-bottom:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px">
+      <div class="rakb-panel" style="padding:30px">
+        <span class="tag tag-accent">In progress</span>
+        <h3 style="margin:18px 0 10px;font-size:21px">Vendor &amp; artisan directory</h3>
+        <p style="font-size:14px;line-height:1.65;color:var(--dim)">A list of local shops, group buy proxies, and artisan makers — with product categories, shipping coverage, and notes from members who have ordered. Filterable by switches, keycaps, cases, or lube services.</p>
+        <div style="display:grid;margin-top:18px">
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>Shops &amp; distributors</span><span class="rakb-mono">Category</span></div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>Artisan makers</span><span class="rakb-mono">Category</span></div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>Build &amp; lube services</span><span class="rakb-mono">Category</span></div>
+        </div>
+      </div>
+      <div class="rakb-panel" style="padding:30px">
+        <span class="tag tag-accent">In progress</span>
+        <h3 style="margin:18px 0 10px;font-size:21px">Build guide + parts calculator</h3>
+        <p style="font-size:14px;line-height:1.65;color:var(--dim)">A path for beginners: pick a layout, mount, and plate, then see the estimated total cost and difficulty. Each step links technical terms to a short explanation.</p>
+        <div style="display:grid;margin-top:18px">
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>65% gasket mount kit</span><span class="rakb-mono">Rp —</span></div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>Switches ×70 (linear)</span><span class="rakb-mono">Rp —</span></div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--color-divider);font-size:13.5px"><span>PBT doubleshot keycaps</span><span class="rakb-mono">Rp —</span></div>
+          <div style="display:flex;justify-content:space-between;padding:14px 0 0;border-top:1px solid var(--line-hi);font-size:15px;font-weight:500"><span>Estimated total</span><span style="font-family:var(--mono)">Rp —</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rakb-wrap" style="padding-bottom:80px">
+      <p style="font-size:13px;max-width:52ch;color:var(--dimmer)">Have another feature in mind? Tell us in the registration form or by DM on Instagram.</p>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── FAQ ─────────── -->
+  <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ true }}">
+  <section data-screen-label="FAQ">
+    <div class="rakb-wrap" style="padding-top:64px;padding-bottom:80px;max-width:860px">
+      <div class="rakb-mono" style="margin-bottom:14px">FAQ</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);line-height:1.03;letter-spacing:-0.04em;font-weight:600;margin:0 0 36px">Questions we keep getting</h1>
+      <div>
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <details style="border-top:1px solid var(--color-divider)">
+            <summary style="display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-family:var(--font-heading);font-weight:500;font-size:17px;letter-spacing:-0.02em">
+              <span>{{ f.q }}</span>
+              <span class="rakb-plus">+</span>
+            </summary>
+            <p style="font-size:14px;line-height:1.65;color:var(--dim);padding-bottom:20px;max-width:62ch;margin:0">{{ f.a }}</p>
+          </details>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ─────────── FOOTER ─────────── -->
+  <footer style="border-top:1px solid var(--color-divider);background:#050505">
+    <div class="rakb-wrap" style="padding-top:48px;padding-bottom:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px">
+      <div>
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:-0.02em;margin-bottom:10px">Ruang Aksara Keyboard</div>
+        <div style="font-size:13px;line-height:1.6;color:var(--dimmer);max-width:32ch">A mechanical keyboard community. Meetups, group buys, and learning together.</div>
+      </div>
+      <div style="display:grid;gap:9px;font-size:13.5px">
+        <div class="rakb-mono" style="margin-bottom:2px">Event</div>
+        <a href="#" onClick="{{ goDaftar }}" style="color:var(--dim)">Register for Vol. 2</a>
+        <a href="#" onClick="{{ goRundown }}" style="color:var(--dim)">Schedule</a>
+        <a href="#" onClick="{{ goLokasi }}" style="color:var(--dim)">Getting there</a>
+      </div>
+      <div style="display:grid;gap:9px;font-size:13.5px">
+        <div class="rakb-mono" style="margin-bottom:2px">More</div>
+        <a href="#" onClick="{{ goRules }}" style="color:var(--dim)">Meetup rules</a>
+        <a href="#" onClick="{{ goGaleri }}" style="color:var(--dim)">Gallery</a>
+        <a href="#" onClick="{{ goKomunitas }}" style="color:var(--dim)">About &amp; team</a>
+      </div>
+      <div style="font-size:13.5px;display:grid;gap:6px">
+        <div class="rakb-mono" style="margin-bottom:2px">Contact</div>
+        <div style="color:var(--dim)">Instagram · @ruangaksarakeyboard</div>
+        <div style="color:var(--dim)">YouTube · @ruangaksarakeyboard</div>
+        <div style="color:var(--dimmer);margin-top:10px">© 2026 Ruang Aksara Keyboard</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;eventDate&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5 December 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Event&quot;},&quot;registrationOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Event&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', submitted: false, accepted: false, termsOpen: false, termsRead: false };
+
+  go(page) {
+    return (e) => {
+      if (e) e.preventDefault();
+      this.setState({ page });
+      window.scrollTo(0, 0);
+    };
+  }
+
+  renderVals() {
+    const p = this.state.page;
+    const open = this.props.registrationOpen ?? true;
+    return {
+      isHome: p === 'home', isDaftar: p === 'daftar', isRundown: p === 'rundown',
+      isLokasi: p === 'lokasi', isRules: p === 'rules', isGaleri: p === 'galeri',
+      isKomunitas: p === 'komunitas', isTools: p === 'tools', isFaq: p === 'faq',
+      curHome: p === 'home' ? 'page' : undefined,
+      curRundown: p === 'rundown' ? 'page' : undefined,
+      curLokasi: p === 'lokasi' ? 'page' : undefined,
+      curRules: p === 'rules' ? 'page' : undefined,
+      curGaleri: p === 'galeri' ? 'page' : undefined,
+      curKomunitas: p === 'komunitas' ? 'page' : undefined,
+      curTools: p === 'tools' ? 'page' : undefined,
+      curFaq: p === 'faq' ? 'page' : undefined,
+      goHome: this.go('home'), goDaftar: this.go('daftar'), goRundown: this.go('rundown'),
+      goLokasi: this.go('lokasi'), goRules: this.go('rules'), goGaleri: this.go('galeri'),
+      goKomunitas: this.go('komunitas'), goTools: this.go('tools'), goFaq: this.go('faq'),
+
+      eventDateLabel: this.props.eventDate ?? '5 December 2026',
+      ctaLabel: open ? 'Register now' : 'Registration not open yet',
+
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      submitForm: (e) => { e.preventDefault(); if (!this.state.accepted) return; this.setState({ submitted: true }); window.scrollTo(0, 0); },
+      resetForm: () => this.setState({ submitted: false, accepted: false }),
+      accepted: this.state.accepted,
+      notAccepted: !this.state.accepted,
+      termsOpen: this.state.termsOpen,
+      notTermsRead: !this.state.termsRead,
+      termsHint: this.state.termsRead ? 'You have reached the end.' : 'Scroll to the end to accept.',
+      onTermsScroll: (e) => {
+        const el = e.target;
+        if (!this.state.termsRead && el.scrollTop + el.clientHeight >= el.scrollHeight - 8) {
+          this.setState({ termsRead: true });
+        }
+      },
+      toggleAccept: (e) => { if (!e.target.checked) this.setState({ accepted: false }); },
+      onCheckClick: (e) => {
+        if (!this.state.accepted) { e.preventDefault(); this.setState({ termsOpen: true }); }
+      },
+      openTerms: (e) => { if (e) e.preventDefault(); this.setState({ termsOpen: true }); },
+      closeTerms: () => this.setState({ termsOpen: false }),
+      acceptTerms: () => { if (this.state.termsRead) this.setState({ termsOpen: false, accepted: true }); },
+
+      announcement: 'Hello everyone!\n\nThe first Ruang Aksara Keyboard meetup was an extraordinary experience for us. Seeing so many stories, keyboards, and new friendships come out of a single room convinced us that this community deserves to keep growing.\n\nSo we are glad to announce that Ruang Aksara Keyboard Meetup Vol. 2 is in preparation.',
+
+      highlights: [
+        { no: '01', title: 'Display tables & sound tests', body: 'Bring your build, leave it on a table, and let other people type on it and judge the sound profile.' },
+        { no: '02', title: 'Lube & mod session', body: 'Work stations for lubing switches, band-aid mods, and stabiliser work. Tools provided.' },
+        { no: '03', title: 'Technical talk', body: 'Short discussions on mounting styles, plate materials, and foam — led by members who have been at this a while.' },
+        { no: '04', title: 'Trade & small auction', body: 'Single keycaps, leftover switches, and artisans looking for a new home.' },
+        { no: '05', title: 'Games & typing race', body: 'A typing race bracket, a Kahoot round, and keyboard trivia — open to everyone in the room, no entry fee.' },
+        { no: '06', title: 'Giveaways from supporters', body: 'Prizes from our supporters and partners handed out through the day: switches, keycap sets, artisans, and merchandise.' }
+      ],
+
+      rundown: [
+        { time: '09.30', title: 'Check-in & table setup', note: 'Pick up your name tag, set your board on a display table', room: 'Lobby' },
+        { time: '10.30', title: 'Opening & community intro', note: 'Welcome from the organisers, house rules', room: 'Main room' },
+        { time: '11.00', title: 'Open sound test', note: 'All display tables open for typing', room: 'Main room' },
+        { time: '12.30', title: 'Break & lunch', note: 'Lunch on your own nearby', room: '—' },
+        { time: '13.30', title: 'Workshop: lube & stabilisers', note: '20 seats, sign up on site', room: 'Side room' },
+        { time: '15.00', title: 'Technical talk: mounting & foam', note: 'Short panel plus Q&A', room: 'Main room' },
+        { time: '15.30', title: 'Typing race, Kahoot & quiz', note: 'Open bracket, prizes for the top finishers', room: 'Main room' },
+        { time: '16.15', title: 'Trade, small auction, giveaways', note: 'Bring anything you want to pass on; supporter prizes drawn here', room: 'Main room' },
+        { time: '17.00', title: 'Group photo & close', note: 'Help pack down the tables before you go', room: 'Main room' }
+      ],
+
+      transport: [
+        { kind: 'MRT', name: 'Fatmawati or Cilandak', body: 'Take MRT Jakarta (Lebak Bulus line) and get off at Fatmawati or Cilandak, then continue by ride hailing along TB Simatupang — roughly 5 minutes.' },
+        { kind: 'TransJakarta', name: 'TB Simatupang stops', body: 'Routes running along Jl. TB Simatupang stop within walking distance. Get off at the stop nearest No. 100 and walk toward the building with the bike-rack facade.' },
+        { kind: 'Ride hailing', name: 'Pickup point', body: 'Search "BMW Motorrad Indonesia Flagship Store" in the app. Ask to be dropped at the main showroom entrance on TB Simatupang, not the service bay.' },
+        { kind: 'Private vehicle', name: 'Parking', body: 'On-site parking including a basement level; car and motorcycle areas are separate. Space is limited, so arrive early or come by MRT.' }
+      ],
+
+      rules: [
+        { no: '01', title: 'Ask before you touch', body: 'Every board on a display table belongs to someone. Ask the owner before picking it up, opening it, or swapping anything on it. If the owner is not nearby, wait.' },
+        { no: '02', title: 'Hands clean, drinks away from the tables', body: 'No food or open drinks at the display tables. Wipe your hands before typing — grease and crumbs are permanent on keycaps.' },
+        { no: '03', title: 'No pulling switches or keycaps off other people\'s boards', body: 'Bring your own puller and your own test board if you want to swap parts. Modding happens at the workshop station, not on the display tables.' },
+        { no: '04', title: 'Keep the noise reasonable', body: 'Sound tests are the point, but talks and workshops take priority while they run. Clacky boards get their moment during open sound test.' },
+        { no: '05', title: 'Trades are between you and the other person', body: 'Organisers do not mediate sales, group buys, or trades. Check the item, agree on the price, and settle it yourselves. Report scams so we can warn others.' },
+        { no: '06', title: 'Photos of people need consent', body: 'Boards and tables are fair game. Before photographing or filming people, ask. Tell the documentation team if you do not want to appear in the gallery.' },
+        { no: '07', title: 'Respect first, expertise second', body: 'No gatekeeping, no mocking someone\'s budget build or their first keyboard. Everyone in the room started with a stock board.' },
+        { no: '08', title: 'Leave the room as you found it', body: 'Take your trash, coil your cables, and help fold the tables at close. The venue is lent to us — how we leave it decides whether we get it again.' }
+      ],
+
+      gallery: Array.from({ length: 9 }, (_, i) => ({
+        id: 'rakb-g' + (i + 1),
+        cap: ['Display tables', 'Sound test', 'Lube session', 'Artisan corner', 'Attendees', 'Group photo', 'Build detail', 'Keycap trade', 'Closing'][i]
+      })),
+
+      vendors: [
+        { name: 'Vendor name', cat: 'Switches & keycaps', kind: 'Prizes' },
+        { name: 'Vendor name', cat: 'Kits & cases', kind: 'Display unit' },
+        { name: 'Artisan maker', cat: 'Artisan keycaps', kind: 'Doorprize' },
+        { name: 'Vendor name', cat: 'Lube & build service', kind: 'Workshop' },
+        { name: 'Supporter name', cat: 'Venue & equipment', kind: 'In kind' },
+        { name: 'Supporter name', cat: 'Food & beverage', kind: 'In kind' }
+      ],
+
+      pillars: [
+        { title: 'Regular meetups', body: 'Open gatherings for anyone, from people holding their first board to those with dozens of builds behind them.' },
+        { title: 'Learning together', body: 'Hands-on sessions: lubing, modding, and technical discussion without gatekeeping.' },
+        { title: 'Access & trust', body: 'Connecting members with vendors, artisans, and group buys that have a track record.' }
+      ],
+
+      members: [
+        { id: 'rakb-m1', name: 'Member name', role: 'Founder', kb: 'Daily: TBD' },
+        { id: 'rakb-m2', name: 'Member name', role: 'Event lead', kb: 'Daily: TBD' },
+        { id: 'rakb-m3', name: 'Member name', role: 'Community', kb: 'Daily: TBD' },
+        { id: 'rakb-m4', name: 'Member name', role: 'Media & documentation', kb: 'Daily: TBD' },
+        { id: 'rakb-m5', name: 'Member name', role: 'Vendor relations', kb: 'Daily: TBD' },
+        { id: 'rakb-m6', name: 'Member name', role: 'Workshop', kb: 'Daily: TBD' }
+      ],
+
+      faqs: [
+        { q: 'I do not own a mechanical keyboard yet — can I still come?', a: 'Yes. Most newcomers show up precisely to try boards before buying one. Pick "Visitor" when you register.' },
+        { q: 'Is there an entry fee?', a: 'No. The event is free, but registration is required because room capacity is limited.' },
+        { q: 'Can I bring more than one keyboard?', a: 'Note how many in the registration form. A standard display table fits two 65% boards or one full size.' },
+        { q: 'Can I sell things at the venue?', a: 'Small personal sales are fine. If you are a vendor with your own display, pick "Vendor / artisan" so we can allocate space.' },
+        { q: 'Can people from outside Jakarta join?', a: 'Yes. Several Vol. 1 attendees travelled in. Venue and timing will be announced early enough to plan a trip.' },
+        { q: 'Will my photo be published?', a: 'Event documentation appears in the site gallery and on the community Instagram. Tell the organisers if you prefer not to be photographed.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
