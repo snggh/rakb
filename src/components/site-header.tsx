@@ -53,7 +53,7 @@ export function SiteHeader() {
               priority
             />
           </span>
-          <span className="text-[0.90625rem] font-semibold tracking-[-0.02em]">Ruang Aksara Keyboard</span>
+          <span className="text-brand font-semibold tracking-display">Ruang Aksara Keyboard</span>
           <span className="mono vol-badge">{event.volume}</span>
         </Link>
         <nav className="nav-links" aria-label="Primary">
@@ -67,7 +67,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link href="/register" className="btn btn-primary !px-3.5 !py-[0.4375rem]">
+        <Link href="/register" className="btn btn-primary px-3.5! py-1.75!">
           Register
         </Link>
       </div>

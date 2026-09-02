@@ -11,7 +11,7 @@ export function FaqList() {
               +
             </span>
           </summary>
-          <p className="faq-answer m-0 max-w-[62ch] pb-5 text-sm leading-[1.65] text-[var(--dim)]">
+          <p className="faq-answer m-0 max-w-62ch pb-5 text-sm leading-prose text-(--dim)">
             {item.a}
           </p>
         </details>

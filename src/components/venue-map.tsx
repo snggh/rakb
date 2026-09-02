@@ -18,7 +18,7 @@ export function VenueMap({ query, title = "Venue map", caption }: VenueMapProps)
           referrerPolicy="no-referrer-when-downgrade"
         />
       </div>
-      {caption ? <p className="mt-2 text-[0.71875rem] text-[var(--dimmer)]">{caption}</p> : null}
+      {caption ? <p className="mt-2 text-caption text-(--dimmer)">{caption}</p> : null}
     </div>
   );
 }

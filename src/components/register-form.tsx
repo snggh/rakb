@@ -53,13 +53,13 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
         {submitted ? (
           <motion.div
             key="success"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(8px)" }}
-            animate={{ opacity: 1, transform: "translateY(0px)", transition: ENTER }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(0.5rem)" }}
+            animate={{ opacity: 1, transform: "translateY(0)", transition: ENTER }}
             exit={{ opacity: 0, transition: EXIT }}
-            className="panel success-stagger max-w-[35rem] p-8"
+            className="panel success-stagger max-w-xl p-8"
           >
-            <h3 className="mb-2 text-[1.375rem]">You&apos;re on the list. See you in the room.</h3>
-            <p className="mb-5 text-sm leading-[1.6] text-[var(--dim)]">
+            <h3 className="mb-2">You&apos;re on the list. See you in the room.</h3>
+            <p className="mb-5 text-sm leading-body text-(--dim)">
               We&apos;ll send the venue details and the final schedule once the date is locked. Keep
               a screenshot of this as your registration record.
             </p>
@@ -71,10 +71,10 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
           <motion.form
             key="form"
             onSubmit={handleSubmit}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(8px)" }}
-            animate={{ opacity: 1, transform: "translateY(0px)", transition: ENTER }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "translateY(0.5rem)" }}
+            animate={{ opacity: 1, transform: "translateY(0)", transition: ENTER }}
             exit={{ opacity: 0, transition: EXIT }}
-            className="panel grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[1.375rem] p-8"
+            className="panel grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-5.5 p-8"
           >
             <div className="field">
               <label htmlFor="name">Full name or nickname</label>
@@ -133,7 +133,7 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
                 step={1}
                 defaultValue={0}
               />
-              <div className="mt-1.5 text-[0.71875rem] text-[var(--dimmer)]">
+              <div className="mt-1.5 text-caption text-(--dimmer)">
                 0 if you&apos;re coming to look and type. Maximum 5 per person.
               </div>
             </div>
@@ -146,12 +146,12 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
                 type="file"
                 accept="image/*,.pdf"
               />
-              <div className="mt-1.5 text-[0.71875rem] text-[var(--dimmer)]">
+              <div className="mt-1.5 text-caption text-(--dimmer)">
                 Upload the payment receipt — image or PDF.
               </div>
             </div>
-            <div className="col-span-full border-t border-[var(--color-divider)] pt-[1.375rem]">
-              <label className="flex cursor-pointer items-start gap-2.5 text-sm text-[var(--dim)]">
+            <div className="col-span-full border-t border-(--color-divider) pt-5.5">
+              <label className="flex cursor-pointer items-start gap-2.5 text-sm text-(--dim)">
                 <input
                   type="checkbox"
                   className="mt-0.5 h-4 w-4 shrink-0 accent-white"
@@ -183,7 +183,7 @@ export function RegisterForm({ registrationOpen }: RegisterFormProps) {
               >
                 {pending ? "Submitting…" : "Submit registration"}
               </button>
-              <span className="text-xs text-[var(--dimmer)]">Your data is used for this event only.</span>
+              <span className="text-xs text-(--dimmer)">Your data is used for this event only.</span>
             </div>
           </motion.form>
         )}

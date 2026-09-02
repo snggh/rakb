@@ -12,7 +12,7 @@ export default function SchedulePage() {
       <section className="wrap pt-16 pb-20">
         <p className="page-kicker">Schedule</p>
         <h1 className="page-title">Run of the day</h1>
-        <p className="mb-3.5 max-w-[56ch] text-[var(--dim)]">{scheduleNote}</p>
+        <p className="mb-3.5 max-w-56ch text-(--dim)">{scheduleNote}</p>
         {scheduleDraft ? (
           <p className="mb-8">
             <span className="tag tag-outline">Draft — not final</span>
@@ -22,20 +22,20 @@ export default function SchedulePage() {
           <table className="table">
             <thead>
               <tr>
-                <th className="w-[6.875rem]">Time</th>
+                <th className="w-27.5">Time</th>
                 <th>Session</th>
-                <th className="w-[10.625rem]">Room</th>
+                <th className="w-42.5">Room</th>
               </tr>
             </thead>
             <tbody>
               {rundown.map((row) => (
                 <tr key={row.time + row.title}>
-                  <td className="font-mono text-[0.8125rem] text-[var(--color-text)]">{row.time}</td>
+                  <td className="font-mono text-ui text-(--color-text)">{row.time}</td>
                   <td>
                     <div className="font-medium">{row.title}</div>
-                    <div className="text-[0.78125rem] text-[var(--dimmer)]">{row.note}</div>
+                    <div className="text-ui-sm text-(--dimmer)">{row.note}</div>
                   </td>
-                  <td className="text-[0.8125rem] text-[var(--dim)]">{row.room}</td>
+                  <td className="text-ui text-(--dim)">{row.room}</td>
                 </tr>
               ))}
             </tbody>

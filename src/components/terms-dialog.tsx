@@ -87,16 +87,16 @@ export function TermsDialog({
               {rules.map((rule) => (
                 <div
                   key={rule.no}
-                  className="grid grid-cols-[32px_1fr] gap-3 border-t border-[var(--color-divider)] py-3"
+                  className="grid grid-cols-[2rem_1fr] gap-3 border-t border-(--color-divider) py-3"
                 >
-                  <div className="font-mono text-xs font-medium text-[#888]">{rule.no}</div>
+                  <div className="font-mono text-xs font-medium text-(--dimmer)">{rule.no}</div>
                   <div>
-                    <div className="mb-1 text-[0.9375rem] font-medium tracking-[-0.02em]">{rule.title}</div>
-                    <div className="text-[0.8125rem] opacity-85">{rule.body}</div>
+                    <div className="mb-1 text-body-sm font-medium tracking-display">{rule.title}</div>
+                    <div className="text-ui opacity-85">{rule.body}</div>
                   </div>
                 </div>
               ))}
-              <p className="mt-3 border-t border-[var(--color-divider)] pt-3 text-[0.8125rem] opacity-85">
+              <p className="mt-3 border-t border-(--color-divider) pt-3 text-ui opacity-85">
                 {termsClosing}
               </p>
             </div>

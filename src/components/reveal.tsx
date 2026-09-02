@@ -37,7 +37,7 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
           io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -48px 0px" },
+      { rootMargin: "0px 0px -3rem 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
