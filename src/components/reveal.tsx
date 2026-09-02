@@ -30,6 +30,8 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
       show();
       return;
     }
+    const rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const bottomInsetPx = rootPx * 3; // 3rem — scales with user text-size setting
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -37,7 +39,7 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
           io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -3rem 0px" },
+      { rootMargin: `0px 0px ${-bottomInsetPx}px 0px` },
     );
     io.observe(el);
     return () => io.disconnect();
