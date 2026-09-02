@@ -22,20 +22,20 @@ export default function SchedulePage() {
           <table className="table">
             <thead>
               <tr>
-                <th className="w-[110px]">Time</th>
+                <th className="w-[6.875rem]">Time</th>
                 <th>Session</th>
-                <th className="w-[170px]">Room</th>
+                <th className="w-[10.625rem]">Room</th>
               </tr>
             </thead>
             <tbody>
               {rundown.map((row) => (
                 <tr key={row.time + row.title}>
-                  <td className="font-mono text-[13px] text-[var(--color-text)]">{row.time}</td>
+                  <td className="font-mono text-[0.8125rem] text-[var(--color-text)]">{row.time}</td>
                   <td>
                     <div className="font-medium">{row.title}</div>
-                    <div className="text-[12.5px] text-[var(--dimmer)]">{row.note}</div>
+                    <div className="text-[0.78125rem] text-[var(--dimmer)]">{row.note}</div>
                   </td>
-                  <td className="text-[13px] text-[var(--dim)]">{row.room}</td>
+                  <td className="text-[0.8125rem] text-[var(--dim)]">{row.room}</td>
                 </tr>
               ))}
             </tbody>

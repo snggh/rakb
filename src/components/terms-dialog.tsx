@@ -91,12 +91,12 @@ export function TermsDialog({
                 >
                   <div className="font-mono text-xs font-medium text-[#888]">{rule.no}</div>
                   <div>
-                    <div className="mb-1 text-[15px] font-medium tracking-[-0.02em]">{rule.title}</div>
-                    <div className="text-[13px] opacity-85">{rule.body}</div>
+                    <div className="mb-1 text-[0.9375rem] font-medium tracking-[-0.02em]">{rule.title}</div>
+                    <div className="text-[0.8125rem] opacity-85">{rule.body}</div>
                   </div>
                 </div>
               ))}
-              <p className="mt-3 border-t border-[var(--color-divider)] pt-3 text-[13px] opacity-85">
+              <p className="mt-3 border-t border-[var(--color-divider)] pt-3 text-[0.8125rem] opacity-85">
                 {termsClosing}
               </p>
             </div>

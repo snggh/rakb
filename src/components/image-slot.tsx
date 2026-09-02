@@ -12,7 +12,7 @@ export function ImageSlot({ src, alt, caption, ratio = "4 / 3", className }: Ima
   return (
     <figure className={className}>
       <div className="panel" style={{ aspectRatio: ratio, padding: 0 }}>
-        <div className="image-slot absolute inset-0 overflow-hidden rounded-[10px]">
+        <div className="image-slot absolute inset-0 overflow-hidden rounded-[0.625rem]">
           {src ? (
             <Image
               src={src}

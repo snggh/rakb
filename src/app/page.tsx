@@ -16,10 +16,10 @@ export default function HomePage() {
     <main>
       <section className="band-bottom relative overflow-hidden">
         <div className="glow" />
-        <div className="wrap relative pt-[88px] pb-[72px]">
+        <div className="wrap relative pt-[5.5rem] pb-[4.5rem]">
           <div className="hero-grid">
             <Reveal>
-              <div className="mb-[26px] flex items-center gap-2.5">
+              <div className="mb-[1.625rem] flex items-center gap-2.5">
                 <span className="status-dot" />
                 <span className="mono">
                   {event.status} · {event.volume}
@@ -32,7 +32,7 @@ export default function HomePage() {
                 <br />
                 <span className="dim">{event.titleLines[2]}</span>
               </h1>
-              <p className="mb-8 max-w-[46ch] text-[17.5px] leading-[1.6] text-pretty text-[var(--dim)]">
+              <p className="mb-8 max-w-[46ch] text-[1.09375rem] leading-[1.6] text-pretty text-[var(--dim)]">
                 {event.tagline}
               </p>
               <div className="flex flex-wrap gap-2.5">
@@ -55,42 +55,42 @@ export default function HomePage() {
         <div className="wrap cell-grid">
           <Reveal className="cell">
             <div className="mono mb-2.5">Date</div>
-            <div className="text-[21px] font-medium tracking-[-0.02em]">{event.dateLabel}</div>
-            <div className="mt-1.5 text-[13px] text-[var(--dimmer)]">{event.dayLabel}</div>
+            <div className="text-[1.3125rem] font-medium tracking-[-0.02em]">{event.dateLabel}</div>
+            <div className="mt-1.5 text-[0.8125rem] text-[var(--dimmer)]">{event.dayLabel}</div>
           </Reveal>
           <Reveal className="cell" delay={0.05}>
             <div className="mono mb-2.5">Location</div>
-            <div className="text-[21px] font-medium tracking-[-0.02em]">{event.venue.shortName}</div>
-            <div className="mt-1.5 text-[13px] text-[var(--dimmer)]">{event.venue.shortAddress}</div>
+            <div className="text-[1.3125rem] font-medium tracking-[-0.02em]">{event.venue.shortName}</div>
+            <div className="mt-1.5 text-[0.8125rem] text-[var(--dimmer)]">{event.venue.shortAddress}</div>
           </Reveal>
           <Reveal className="cell" delay={0.1}>
             <div className="mono mb-2.5">Capacity</div>
-            <div className="text-[21px] font-medium tracking-[-0.02em]">{event.capacity}</div>
-            <div className="mt-1.5 text-[13px] text-[var(--dimmer)]">{event.capacityNote}</div>
+            <div className="text-[1.3125rem] font-medium tracking-[-0.02em]">{event.capacity}</div>
+            <div className="mt-1.5 text-[0.8125rem] text-[var(--dimmer)]">{event.capacityNote}</div>
           </Reveal>
         </div>
       </div>
 
-      <div className="wrap py-[72px]">
+      <div className="wrap py-[4.5rem]">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-14">
           <Reveal>
-            <div className="mono mb-[18px]">Announcement</div>
+            <div className="mono mb-[1.125rem]">Announcement</div>
             <p className="max-w-[52ch] text-base leading-[1.65] text-pretty whitespace-pre-line text-[var(--dim)]">
               {event.announcement}
             </p>
-            <p className="mb-7 text-[13px] text-[var(--dimmer)]">{event.announcementSignoff}</p>
+            <p className="mb-7 text-[0.8125rem] text-[var(--dimmer)]">{event.announcementSignoff}</p>
             <ImageSlot src={event.announcementImage} alt="Photo from Vol. 1" ratio="3 / 2" />
           </Reveal>
           <div>
-            <div className="mono mb-[18px]">What happens in the room</div>
+            <div className="mono mb-[1.125rem]">What happens in the room</div>
             <div>
               {highlights.map((item, i) => (
                 <Reveal key={item.no} delay={i * 0.04}>
                   <div className="row">
                     <div className="pt-0.5 font-mono text-xs text-[var(--dimmer)]">{item.no}</div>
                     <div>
-                      <div className="mb-[3px] text-base font-medium tracking-[-0.015em]">{item.title}</div>
-                      <div className="text-[13.5px] leading-[1.6] text-[var(--dim)]">{item.body}</div>
+                      <div className="mb-[0.1875rem] text-base font-medium tracking-[-0.015em]">{item.title}</div>
+                      <div className="text-[0.84375rem] leading-[1.6] text-[var(--dim)]">{item.body}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -114,7 +114,7 @@ export default function HomePage() {
             {event.venue.address}.
           </p>
         </div>
-        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 pb-[72px]">
+        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 pb-[4.5rem]">
           <Reveal>
             <VenueMap query={event.venue.mapQuery} title="Meetup area map" />
           </Reveal>
@@ -124,7 +124,7 @@ export default function HomePage() {
                 <div className="stack-row">
                   <div className="mono mb-1.5">{item.kind}</div>
                   <div className="text-base font-medium tracking-[-0.015em]">{item.name}</div>
-                  <div className="text-[13.5px] leading-[1.6] text-[var(--dim)]">{item.body}</div>
+                  <div className="text-[0.84375rem] leading-[1.6] text-[var(--dim)]">{item.body}</div>
                 </div>
               </Reveal>
             ))}
@@ -133,8 +133,8 @@ export default function HomePage() {
       </div>
 
       <div className="band-top">
-        <div className="wrap pt-14 pb-[72px]">
-          <div className="mb-[22px] flex items-baseline justify-between gap-4">
+        <div className="wrap pt-14 pb-[4.5rem]">
+          <div className="mb-[1.375rem] flex items-baseline justify-between gap-4">
             <h2 className="m-0">From Vol. 1</h2>
             <Link href="/gallery" className="link-accent">
               All photos →
@@ -163,7 +163,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <div className="wrap relative pb-[72px]">
+        <div className="wrap relative pb-[4.5rem]">
           <div className="flex flex-wrap gap-2.5">
             <Link href="/register" className="btn btn-primary">
               Become a supporter
