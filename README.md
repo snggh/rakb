@@ -57,12 +57,12 @@ dressed in, one per meetup theme. It is set in one place:
 
 ```ts
 // src/content/theme.ts
-export const activeColorway = "default";
+export const activeColorway = "a";
 ```
 
 Shipping now: `default` (Aksara — plain black, plain white, one blue accent),
-`foundation` (warm greige and cream, colourful alphas) and `harbour` (deep
-teal-blue on a cool grey plate). The last two also recolour the logo.
+`foundation` (warm greige and cream, colourful alphas) and `a` (GMK A — deep
+teal-blue on a cool grey plate, red accent). The last two also recolour the logo.
 
 To add the next one:
 

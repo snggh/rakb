@@ -303,11 +303,11 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Colorway: "Harbour" — deep teal-blue on a cool grey plate.
-   Logo matches public/logo/rakb-logo-gmk-a.svg.
+   Colorway: "GMK A" — deep teal-blue on a cool grey plate, red accent.
+   Logo matches public/logo/rakb-logo-gmk-a.svg exactly.
    ------------------------------------------------------------------------ */
-[data-colorway="harbour"][data-theme="wob"],
-[data-colorway="harbour"]:root:not([data-theme]) {
+[data-colorway="a"][data-theme="wob"],
+[data-colorway="a"]:root:not([data-theme]) {
   --color-bg: #08131a;
   --color-surface: #0e1e27;
   --color-raised: #0e1e27;
@@ -352,11 +352,11 @@
   --logo-letter-a: #d7dee1;
   --logo-letter-k: #d7dee1;
   --logo-letter-b: #d7dee1;
-  --logo-mark: #1d6389;
-  --logo-wink: #d7dee1;
+  --logo-mark: #a34646;
+  --logo-wink: #a34646;
 }
 
-[data-colorway="harbour"][data-theme="bow"] {
+[data-colorway="a"][data-theme="bow"] {
   --color-bg: #f4f8fa;
   --color-surface: #e8eff2;
   --color-raised: #ffffff;
@@ -402,8 +402,8 @@
   --logo-letter-a: #d7dee1;
   --logo-letter-k: #d7dee1;
   --logo-letter-b: #d7dee1;
-  --logo-mark: #1d6389;
-  --logo-wink: #d7dee1;
+  --logo-mark: #a34646;
+  --logo-wink: #a34646;
 }
 
 /* ---------------------------------------------------------------------------

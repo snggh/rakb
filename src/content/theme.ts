@@ -53,9 +53,9 @@ export const colorways = [
     note: "Warm greige and cream with a full set of colorful alphas.",
   },
   {
-    id: "harbour",
-    name: "Harbour",
-    note: "Deep teal-blue against a cool grey plate.",
+    id: "a",
+    name: "GMK A",
+    note: "Deep teal-blue against a cool grey plate, with a red accent.",
   },
 ] as const satisfies readonly Colorway[];
 
@@ -63,4 +63,4 @@ export const colorways = [
  * The colorway the site is currently wearing. Point this at the upcoming
  * meetup's theme — it is the single switch for the whole site and the logo.
  */
-export const activeColorway = "default";
+export const activeColorway = "a";
