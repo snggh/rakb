@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { LegendSwitch } from "@/components/legend-switch";
 import { LogoBadge } from "@/components/logo";
+import { RegisterCta } from "@/components/register-cta";
 import { event } from "@/content/event";
 import { navItems } from "@/lib/site";
 
@@ -60,9 +61,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <LegendSwitch className="legend-switch-desktop" />
-        <Link href="/register" className="btn btn-primary px-3.5! py-1.75!">
-          Register
-        </Link>
+        <RegisterCta className="btn btn-primary px-3.5! py-1.75!">Register</RegisterCta>
       </div>
       <div className="mobile-bar">
         <nav className="mobile-nav" aria-label="Mobile">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RegisterCta } from "@/components/register-cta";
 
 export default function NotFound() {
   return (
@@ -12,9 +13,7 @@ export default function NotFound() {
         <Link href="/" className="btn btn-primary">
           Home
         </Link>
-        <Link href="/register" className="btn btn-secondary">
-          Register
-        </Link>
+        <RegisterCta className="btn btn-secondary">Register</RegisterCta>
       </div>
     </main>
   );

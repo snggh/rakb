@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { activeColorway, defaultLegendMode } from "@/content/theme";
+import { isStaging } from "@/lib/env";
 import { site } from "@/lib/site";
 import { themeScript } from "@/lib/theme-script";
 import "./globals.css";
@@ -38,6 +39,10 @@ export const metadata: Metadata = {
     title: site.name,
     description: site.description,
   },
+  // Staging and preview builds must never be indexed alongside the real site.
+  robots: isStaging
+    ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } }
+    : { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

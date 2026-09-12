@@ -11,6 +11,17 @@ export const event = {
   registrationOpen: true,
   ctaOpen: "Register now",
   ctaClosed: "Registration not open yet",
+
+  /**
+   * Registration is handled by an external ticketing platform. Put the public
+   * ticket page URL here (https only) and every "Register" button on the site
+   * points at it. While this is `null` the buttons lead to /register, which
+   * explains that the ticket link is not live yet.
+   *
+   * The site itself never collects names, emails, phone numbers or payment
+   * proof — that all stays with the ticketing provider.
+   */
+  ticketUrl: null as string | null,
   capacity: "± 80 people",
   capacityNote: "Including 20 display tables",
   venue: {

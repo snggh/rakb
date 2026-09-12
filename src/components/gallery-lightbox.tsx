@@ -64,17 +64,23 @@ export function GalleryLightbox({
   const lastPoint = useRef({ x: 0, y: 0 });
   const pointerOrigin = useRef({ x: 0, y: 0 });
 
-  const resetView = useCallback(() => {
+  // Reset zoom/pan when the viewer moves to another photo. Done during render
+  // rather than in an effect: React's documented "adjust state on prop change"
+  // pattern, which avoids the extra commit a setState-in-effect would cause.
+  const [viewedIndex, setViewedIndex] = useState(index);
+  if (index !== viewedIndex) {
+    setViewedIndex(index);
     setZoom(1);
     setPan({ x: 0, y: 0 });
+    setIsDragging(false);
+  }
+
+  // Refs cannot be touched during render, so the drag bookkeeping is cleared
+  // here instead — same trigger, no extra render.
+  useEffect(() => {
     draggingRef.current = false;
     didDragRef.current = false;
-    setIsDragging(false);
-  }, []);
-
-  useEffect(() => {
-    resetView();
-  }, [index, resetView]);
+  }, [index]);
 
   const go = useCallback(
     (delta: number) => {

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GalleryPreviewBrowser } from "@/components/gallery-browser";
 import { ImageSlot } from "@/components/image-slot";
 import { MascotGmkA } from "@/components/mascot-gmk-a";
+import { RegisterCta } from "@/components/register-cta";
 import { Reveal } from "@/components/reveal";
 import { VenueMap } from "@/components/venue-map";
 import { event } from "@/content/event";
@@ -38,9 +39,7 @@ export default function HomePage() {
                 {event.tagline}
               </p>
               <div className="flex flex-wrap gap-2.5">
-                <Link href="/register" className="btn btn-primary">
-                  {ctaLabel}
-                </Link>
+                <RegisterCta className="btn btn-primary">{ctaLabel}</RegisterCta>
                 <Link href="/schedule" className="btn btn-secondary">
                   See the schedule
                 </Link>

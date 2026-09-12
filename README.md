@@ -104,12 +104,33 @@ registrationOpen: true,
 
 Set `false` to change the home CTA and disable submit.
 
-### Site URL (SEO)
+## Registration
 
-Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the production domain. Used for sitemap, robots, and Open Graph.
+Registration runs on an **external ticketing platform** — this site never asks
+for names, emails, phone numbers or payment proof.
 
-## Registration (v1)
+Set the ticket page URL in `src/content/event.ts`:
 
-The register page looks complete (terms scroll-to-accept, success state) but **does not save submissions**. Persistence can be added later by replacing `src/lib/submit-registration.ts` with a Server Action.
+```ts
+ticketUrl: "https://tickets.example.com/rakb-vol-2",
+```
+
+Every "Register" button on the site then points there (new tab). While it is
+`null`, the buttons lead to `/register`, which says the link is not live yet.
+
+## Site URL and staging
+
+Copy `.env.example` to `.env.local`:
+
+| Variable | What it does |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Production domain. Used for sitemap, robots and Open Graph. |
+| `NEXT_PUBLIC_SITE_ENV` | `staging` on preview builds — makes every page `noindex` and `robots.txt` disallow everything. `production` otherwise. |
+
+## Deploying
+
+See [DEPLOY.md](DEPLOY.md). Short version: `npm run build` writes a static
+`out/` folder, which Cloudflare Pages serves. `develop` is staging, `main` is
+production.
 
 The original HTML mockup is in `design/` for visual reference.
