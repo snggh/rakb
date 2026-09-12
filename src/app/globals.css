@@ -972,6 +972,25 @@ figcaption {
   background: var(--color-surface);
 }
 
+.image-slot-hit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  color: inherit;
+}
+
+.image-slot-hit:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
 .image-slot img {
   transition: transform 400ms var(--ease-out);
 }
@@ -979,6 +998,345 @@ figcaption {
 @media (hover: hover) and (pointer: fine) {
   .image-slot:hover img {
     transform: scale(1.03);
+  }
+}
+
+.lightbox-root {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 1.25rem 1.5rem;
+  background: color-mix(in srgb, var(--scrim) 40%, transparent);
+  cursor: zoom-out;
+}
+
+/* Blur the real page behind the portal — reliable vs backdrop-filter + Motion. */
+html.lightbox-open .site-shell {
+  filter: blur(10px);
+  transform: scale(1.01); /* hide blur fringe at edges */
+  transition:
+    filter var(--dur-modal) var(--ease-out),
+    transform var(--dur-modal) var(--ease-out);
+}
+
+html:not(.lightbox-open) .site-shell {
+  transition:
+    filter var(--dur-modal) var(--ease-out),
+    transform var(--dur-modal) var(--ease-out);
+}
+
+.lightbox-chrome {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  pointer-events: none;
+}
+
+.lightbox-chrome-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.1rem;
+}
+
+.lightbox-chrome > * {
+  pointer-events: auto;
+}
+
+.lightbox-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: min(42ch, 58vw);
+}
+
+.lightbox-meta {
+  margin-top: 0.2rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.7rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.lightbox-chip {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(12, 12, 12, 0.35);
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    background var(--dur-hover) ease,
+    opacity var(--dur-hover) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+
+.lightbox-chip:hover:not(:disabled) {
+  background: rgba(12, 12, 12, 0.55);
+}
+
+.lightbox-chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.lightbox-chip:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.lightbox-chip:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+.lightbox-shell {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  cursor: default;
+  transform-origin: center center;
+}
+
+.lightbox-shell[data-orientation="portrait"] {
+  max-width: min(70vw, 36rem);
+}
+
+.lightbox-shell[data-orientation="landscape"] {
+  /* Red-rectangle target: wide with margin to dismiss outside. */
+  display: block;
+  width: min(92vw, 90rem);
+  max-width: min(92vw, 90rem);
+  max-height: min(82vh, 54rem);
+  aspect-ratio: var(--photo-ar, 3 / 2);
+  height: auto;
+}
+
+.lightbox-stage {
+  position: relative;
+  display: block;
+  touch-action: none;
+  cursor: zoom-in;
+  user-select: none;
+  transform-origin: center;
+}
+
+.lightbox-shell[data-orientation="landscape"] .lightbox-stage,
+.lightbox-shell[data-orientation="landscape"] .lightbox-frame {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.lightbox-stage[data-zoom-out="true"] {
+  cursor: zoom-out;
+}
+
+.lightbox-stage[data-zoomed="true"] {
+  cursor: grab;
+}
+
+.lightbox-stage[data-zoomed="true"][data-zoom-out="true"] {
+  cursor: zoom-out;
+}
+
+.lightbox-stage[data-zoomed="true"]:active {
+  cursor: grabbing;
+}
+
+.lightbox-stage[data-zoomed="true"][data-zoom-out="true"]:active {
+  cursor: zoom-out;
+}
+
+.lightbox-frame {
+  display: block;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.lightbox-photo {
+  display: block;
+}
+
+.lightbox-shell[data-orientation="portrait"] .lightbox-photo {
+  width: auto !important;
+  height: auto !important;
+  max-width: min(70vw, 36rem);
+  max-height: min(84vh, 52rem);
+}
+
+.lightbox-shell[data-orientation="landscape"] .lightbox-photo {
+  object-fit: contain;
+}
+
+/* Edge hit zones hug the photo edges — outside remains clickable to close. */
+.lightbox-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(22%, 5.5rem);
+  z-index: 2;
+}
+
+.lightbox-edge-prev {
+  left: 0;
+}
+
+.lightbox-edge-next {
+  right: 0;
+}
+
+.lightbox-nav {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #fff;
+}
+
+.lightbox-nav-glyph {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  font-size: 1.85rem;
+  line-height: 1;
+  background: rgba(12, 12, 12, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  /* Hidden until the cursor enters the edge zone. */
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity var(--dur-hover) ease,
+    transform var(--dur-ui) var(--ease-out),
+    background var(--dur-hover) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lightbox-edge:hover .lightbox-nav-glyph,
+  .lightbox-nav:focus-visible .lightbox-nav-glyph {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .lightbox-nav:active .lightbox-nav-glyph {
+    transform: scale(0.97);
+  }
+}
+
+/* Touch: no hover — keep a quiet persistent control. */
+@media (hover: none), (pointer: coarse) {
+  .lightbox-nav-glyph {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 40rem) {
+  .lightbox-root {
+    padding: 4rem 0.75rem 1rem;
+  }
+
+  .lightbox-chrome-top {
+    padding: 0.75rem 0.8rem;
+  }
+
+  .lightbox-shell[data-orientation="portrait"] {
+    max-width: min(88vw, 36rem);
+  }
+
+  .lightbox-shell[data-orientation="landscape"] {
+    width: min(94vw, 90rem);
+    max-width: min(94vw, 90rem);
+    max-height: min(70vh, 54rem);
+  }
+
+  .lightbox-shell[data-orientation="portrait"] .lightbox-photo {
+    max-width: min(88vw, 36rem);
+    max-height: min(78vh, 52rem);
+  }
+
+  .lightbox-edge {
+    width: min(28%, 4.25rem);
+  }
+
+  .lightbox-nav-glyph {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.55rem;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lightbox-root {
+    background: var(--scrim-solid);
+  }
+
+  html.lightbox-open .site-shell {
+    filter: none;
+    transform: none;
+  }
+
+  .lightbox-chip,
+  .lightbox-nav-glyph {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(12, 12, 12, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.lightbox-open .site-shell,
+  html:not(.lightbox-open) .site-shell {
+    transition: none;
+    transform: none;
+  }
+
+  html.lightbox-open .site-shell {
+    filter: blur(6px);
+  }
+
+  .lightbox-frame {
+    transition: none !important;
+  }
+
+  .lightbox-nav-glyph {
+    transition: opacity var(--dur-hover) ease;
+    transform: none;
   }
 }
 

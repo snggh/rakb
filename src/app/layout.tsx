@@ -65,7 +65,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-screen bg-(--color-bg) font-sans text-(--color-text) antialiased">
-        <div className="flex min-h-screen flex-col">
+        <div className="site-shell flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>
           <SiteFooter />

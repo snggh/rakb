@@ -28,7 +28,7 @@ The first Ruang Aksara Keyboard meetup was an extraordinary experience for us. S
 So we are glad to announce that Ruang Aksara Keyboard Meetup Vol. 2 is in preparation.`,
   announcementSignoff: "— The organisers, Ruang Aksara Keyboard",
   heroImage: "/mascot/rakb-mascot-gmk-a.svg",
-  announcementImage: null as string | null,
+  announcementImage: "/gallery/vol1/dsc00750.webp",
 } as const;
 
 export function mapEmbedSrc(query: string) {

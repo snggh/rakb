@@ -8,6 +8,7 @@ type ImageSlotProps = {
   fit?: "cover" | "contain";
   bare?: boolean;
   className?: string;
+  onOpen?: () => void;
 };
 
 export function ImageSlot({
@@ -18,9 +19,28 @@ export function ImageSlot({
   fit = "cover",
   bare = false,
   className,
+  onOpen,
 }: ImageSlotProps) {
   const isSvg = src?.endsWith(".svg") ?? false;
   const objectClass = fit === "contain" ? "object-contain" : "object-cover";
+
+  const media =
+    src == null ? (
+      <div className="image-slot-ph">
+        <span>{caption ?? alt}</span>
+      </div>
+    ) : isSvg ? (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} alt={alt} className={`absolute inset-0 h-full w-full ${objectClass}`} />
+    ) : (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 53.75rem) 100vw, 50vw"
+        className={objectClass}
+      />
+    );
 
   return (
     <figure className={className}>
@@ -35,23 +55,17 @@ export function ImageSlot({
               : "image-slot absolute inset-0 overflow-hidden rounded-2.5"
           }
         >
-          {src ? (
-            isSvg ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={src} alt={alt} className={`absolute inset-0 h-full w-full ${objectClass}`} />
-            ) : (
-              <Image
-                src={src}
-                alt={alt}
-                fill
-                sizes="(max-width: 53.75rem) 100vw, 50vw"
-                className={objectClass}
-              />
-            )
+          {onOpen && src ? (
+            <button
+              type="button"
+              className="image-slot-hit"
+              onClick={onOpen}
+              aria-label={`View ${alt}`}
+            >
+              {media}
+            </button>
           ) : (
-            <div className="image-slot-ph">
-              <span>{caption ?? alt}</span>
-            </div>
+            media
           )}
         </div>
       </div>
