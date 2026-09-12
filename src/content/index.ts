@@ -6,8 +6,8 @@ export { rules, rulesIntro, termsClosing, termsPreamble, zeroTolerance } from ".
 export { faqs } from "./faqs";
 export { members, membersNote } from "./members";
 export type { Member } from "./members";
-export { gallery } from "./gallery";
-export type { GalleryItem } from "./gallery";
+export { gallery, galleryPreview, galleryVolumes } from "./gallery";
+export type { GalleryItem, GalleryVolume } from "./gallery";
 export { communityIntro, pillars } from "./pillars";
 export { sponsors, sponsorsIntro } from "./sponsors";
 export type { Sponsor } from "./sponsors";

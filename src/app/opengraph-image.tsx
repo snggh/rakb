@@ -6,6 +6,9 @@ export const alt = `${site.name} — ${event.volumeLabel}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Required by `output: "export"` — the card is rendered once at build time.
+export const dynamic = "force-static";
+
 export default function OpenGraphImage() {
   return new ImageResponse(
     (

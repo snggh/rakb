@@ -1,4 +1,7 @@
 import type { MetadataRoute } from "next";
+
+// Required by `output: "export"` — this file is generated once at build time.
+export const dynamic = "force-static";
 import { routes, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {

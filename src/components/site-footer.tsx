@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RegisterCta } from "@/components/register-cta";
 import { LogoBadge } from "@/components/logo";
 import { site } from "@/lib/site";
 
@@ -14,7 +15,7 @@ export function SiteFooter() {
         </div>
         <div className="grid gap-2.25 text-ui-md">
           <div className="mono mb-0.5">Event</div>
-          <Link href="/register">Register for Vol. 2</Link>
+          <RegisterCta>Register for Vol. 2</RegisterCta>
           <Link href="/schedule">Schedule</Link>
           <Link href="/getting-there">Getting there</Link>
         </div>
@@ -28,13 +29,13 @@ export function SiteFooter() {
           <div className="mono mb-0.5">Contact</div>
           <div>
             Instagram ·{" "}
-            <a href={site.instagram} target="_blank" rel="noreferrer">
+            <a href={site.instagram} target="_blank" rel="noopener noreferrer">
               {site.instagramHandle}
             </a>
           </div>
           <div>
             YouTube ·{" "}
-            <a href={site.youtube} target="_blank" rel="noreferrer">
+            <a href={site.youtube} target="_blank" rel="noopener noreferrer">
               {site.youtubeHandle}
             </a>
           </div>

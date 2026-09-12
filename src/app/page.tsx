@@ -1,17 +1,19 @@
 import Link from "next/link";
+import { GalleryPreviewBrowser } from "@/components/gallery-browser";
 import { ImageSlot } from "@/components/image-slot";
 import { MascotGmkA } from "@/components/mascot-gmk-a";
+import { RegisterCta } from "@/components/register-cta";
 import { Reveal } from "@/components/reveal";
 import { VenueMap } from "@/components/venue-map";
 import { event } from "@/content/event";
-import { gallery } from "@/content/gallery";
+import { galleryPreview, galleryVolumes } from "@/content/gallery";
 import { highlights } from "@/content/highlights";
 import { sponsors, sponsorsIntro } from "@/content/sponsors";
 import { transport } from "@/content/transport";
 
 export default function HomePage() {
   const ctaLabel = event.registrationOpen ? event.ctaOpen : event.ctaClosed;
-  const preview = gallery.slice(0, 4);
+  const vol1 = galleryVolumes[0];
 
   return (
     <main>
@@ -37,9 +39,7 @@ export default function HomePage() {
                 {event.tagline}
               </p>
               <div className="flex flex-wrap gap-2.5">
-                <Link href="/register" className="btn btn-primary">
-                  {ctaLabel}
-                </Link>
+                <RegisterCta className="btn btn-primary">{ctaLabel}</RegisterCta>
                 <Link href="/schedule" className="btn btn-secondary">
                   See the schedule
                 </Link>
@@ -84,7 +84,11 @@ export default function HomePage() {
               {event.announcement}
             </p>
             <p className="mb-7 text-ui text-(--dimmer)">{event.announcementSignoff}</p>
-            <ImageSlot src={event.announcementImage} alt="Photo from Vol. 1" ratio="3 / 2" />
+            <ImageSlot
+              src={event.announcementImage}
+              alt="Vol. 1 attendees raising mechanical keyboards together"
+              ratio="16 / 9"
+            />
           </Reveal>
           <div>
             <div className="mono mb-4.5">What happens in the room</div>
@@ -145,13 +149,11 @@ export default function HomePage() {
               All photos →
             </Link>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(12.5rem,1fr))] gap-2.5">
-            {preview.map((item, i) => (
-              <Reveal key={item.id} delay={i * 0.05}>
-                <ImageSlot src={item.src} alt={item.cap} ratio="1 / 1" />
-              </Reveal>
-            ))}
-          </div>
+          <GalleryPreviewBrowser
+            thumbs={galleryPreview}
+            items={vol1?.items ?? galleryPreview}
+            volumeLabel={vol1?.volume}
+          />
         </div>
       </div>
 

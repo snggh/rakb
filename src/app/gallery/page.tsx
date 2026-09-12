@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { ImageSlot } from "@/components/image-slot";
-import { Reveal } from "@/components/reveal";
-import { gallery } from "@/content/gallery";
+import { GalleryVolumesBrowser } from "@/components/gallery-browser";
+import { galleryVolumes } from "@/content/gallery";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: "Photos from Ruang Aksara Keyboard Meetup Vol. 1.",
+  description: "Photos from Ruang Aksara Keyboard Meetup.",
 };
 
 export default function GalleryPage() {
@@ -13,20 +12,14 @@ export default function GalleryPage() {
     <main>
       <section className="wrap pt-16 pb-9">
         <p className="page-kicker">Gallery</p>
-        <h1 className="page-title">Meetup Vol. 1</h1>
+        <h1 className="page-title">Photos from the room</h1>
         <p className="max-w-54ch text-(--dim)">
-          Documentation from the first meetup. Send photos to the organisers to be included here.
+          Moments from past meetups — boards, people, and the energy in between.
+          Click a photo to zoom and browse.
         </p>
       </section>
-      <section className="wrap pb-20">
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-3.5">
-          {gallery.map((item, i) => (
-            <Reveal key={item.id} delay={(i % 6) * 0.04}>
-              <ImageSlot src={item.src} alt={item.cap} caption={item.cap} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
+
+      <GalleryVolumesBrowser volumes={galleryVolumes} />
     </main>
   );
 }

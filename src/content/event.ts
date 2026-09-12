@@ -11,6 +11,17 @@ export const event = {
   registrationOpen: true,
   ctaOpen: "Register now",
   ctaClosed: "Registration not open yet",
+
+  /**
+   * Registration is handled by an external ticketing platform. Put the public
+   * ticket page URL here (https only) and every "Register" button on the site
+   * points at it. While this is `null` the buttons lead to /register, which
+   * explains that the ticket link is not live yet.
+   *
+   * The site itself never collects names, emails, phone numbers or payment
+   * proof — that all stays with the ticketing provider.
+   */
+  ticketUrl: null as string | null,
   capacity: "± 80 people",
   capacityNote: "Including 20 display tables",
   venue: {
@@ -28,7 +39,7 @@ The first Ruang Aksara Keyboard meetup was an extraordinary experience for us. S
 So we are glad to announce that Ruang Aksara Keyboard Meetup Vol. 2 is in preparation.`,
   announcementSignoff: "— The organisers, Ruang Aksara Keyboard",
   heroImage: "/mascot/rakb-mascot-gmk-a.svg",
-  announcementImage: null as string | null,
+  announcementImage: "/gallery/vol1/dsc00750.webp",
 } as const;
 
 export function mapEmbedSrc(query: string) {
