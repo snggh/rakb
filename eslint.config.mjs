@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+
+    // The original HTML mockup and its bundled design-system files. Kept for
+    // visual reference only — never built, never shipped, and not ours to lint.
+    "design/**",
   ]),
 ]);
 
