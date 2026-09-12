@@ -1,0 +1,15 @@
+# Cloudflare deploys this site as a Worker serving static assets — the
+# dashboard's Git-integration flow for new projects builds with Wrangler now,
+# not the classic Pages "framework preset + output directory" form. There is
+# no server code here: this repo has no `main` entry point on purpose, so
+# Cloudflare serves the files in `assets.directory` directly with no Worker
+# runtime in the request path.
+name = "rakb"
+compatibility_date = "2026-09-12"
+
+[assets]
+# `npm run build` (next build, output: "export") writes here.
+directory = "./out"
+# The site is plain pages, not a client-side router — a request Next didn't
+# generate a page for should hit the real 404, not fall back to index.html.
+not_found_handling = "404-page"
