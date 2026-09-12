@@ -38,7 +38,7 @@ there is a lot of headroom — but keep dropping raw camera exports into
 ## One-time setup
 
 1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
-   **Connect to Git** → pick `snggh/rkab`.
+   **Connect to Git** → pick `snggh/rakb`.
 2. Build settings:
    - Framework preset: **None** (do *not* pick "Next.js" — that preset assumes
      a server runtime; this project exports static files)
