@@ -13,3 +13,9 @@ directory = "./out"
 # The site is plain pages, not a client-side router — a request Next didn't
 # generate a page for should hit the real 404, not fall back to index.html.
 not_found_handling = "404-page"
+# next.config.ts sets trailingSlash: true, so every route is a folder ending
+# in index.html (e.g. schedule/index.html). This serves folder index files
+# with the trailing slash and standalone .html files without one — already
+# Cloudflare's default, made explicit so a future default change can't
+# silently break routing here.
+html_handling = "auto-trailing-slash"
