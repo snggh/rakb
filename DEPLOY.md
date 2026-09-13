@@ -37,37 +37,72 @@ there is a lot of headroom — but keep dropping raw camera exports into
 
 ## One-time setup
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
-   **Connect to Git** → pick `snggh/rkab`.
-2. Build settings:
-   - Framework preset: **None** (do *not* pick "Next.js" — that preset assumes
-     a server runtime; this project exports static files)
-   - Build command: `npm run build`
-   - Build output directory: `out`
-   - Root directory: `/`
-3. Production branch: **`main`**. Every other branch gets an automatic preview
-   deployment, so `develop` becomes the staging site.
-4. Environment variables — set them in **both** scopes:
+Cloudflare folded Pages into **Workers**. New Git-connected static sites go
+through the Workers Builds flow now, not the classic Pages "framework preset +
+output directory" form — the dashboard drives everything off `wrangler.toml`
+in this repo instead. That file is already committed (`wrangler.toml`), so the
+wizard mostly configures itself.
 
-   | Variable | Production | Preview (staging) |
-   | --- | --- | --- |
-   | `NODE_VERSION` | `22` | `22` |
-   | `NEXT_PUBLIC_SITE_URL` | `https://ruangaksarakeyboard.com` | the `*.pages.dev` preview URL |
-   | `NEXT_PUBLIC_SITE_ENV` | `production` | `staging` |
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → connect the
+   `snggh/rakb` GitHub repo.
+2. **Production branch: pick `develop`, not `main`.** `main` hasn't received
+   the security/static-export work yet (no `wrangler.toml`, and it still has
+   the old registration form that collected and discarded personal data) —
+   pointing Cloudflare at it now would either fail to build or, worse, later
+   ship that old code. Once `develop` has been reviewed and is ready to go
+   live, merge it into `main` and repoint this setting.
+3. Deploy settings (the wizard reads most of this from `wrangler.toml`
+   automatically):
+   - Build command: `npm run build`
+   - Deploy command: `npx wrangler deploy` (leave as the default — do not add
+     `--assets`; the directory is already set in `wrangler.toml`)
+   - **Builds for non-production branches**: leave checked. This is what
+     gives every other branch (feature branches, PRs) its own preview build.
+4. **Environment variables** — expand **Advanced settings** before deploying
+   (or Settings → Variables and Secrets after the project exists) and set,
+   for **both** the Production and Preview environments:
+
+   | Variable | Value (this project is the staging/review site) |
+   | --- | --- |
+   | `NEXT_PUBLIC_SITE_ENV` | `staging` |
+   | `NEXT_PUBLIC_SITE_URL` | leave unset, or the `*.workers.dev` URL Cloudflare assigns after first deploy |
 
    `NEXT_PUBLIC_SITE_ENV=staging` is what makes the build emit
    `<meta name="robots" content="noindex, nofollow">` on every page and a
-   blanket `Disallow: /` in `robots.txt`. Without it, Google will index the
-   staging copy next to the real site and split your search results.
+   blanket `Disallow: /` in `robots.txt`. Without it, Google will index this
+   review copy next to the real site once it's live. Because this whole
+   Cloudflare project is the staging site for now, set `staging` everywhere —
+   there's no real "production" environment here yet.
 
-5. Custom domain (when ready): Pages project → **Custom domains** → add
+5. Custom domain (only once this project is repointed at `main` for real
+   production): project → **Settings → Domains & Routes** → add
    `ruangaksarakeyboard.com`. TLS is issued automatically.
 
 ### Password-gating staging later
 
 If you decide the review copy should not be open to anyone with the URL:
-Cloudflare **Zero Trust** → **Access** → **Applications** → add the preview
-hostname, policy "emails in this list". Free for up to 50 users, no code change.
+Cloudflare **Zero Trust** → **Access** → **Applications** → add the assigned
+hostname, policy "emails in this list". Free for up to 50 users, no code
+change.
+
+### Why `wrangler.toml` and not a dashboard field
+
+The Workers Builds dashboard has no "build output directory" field anymore —
+that's `assets.directory` in `wrangler.toml` instead:
+
+```toml
+name = "rakb"
+compatibility_date = "2026-09-12"
+
+[assets]
+directory = "./out"
+not_found_handling = "404-page"   # serve the real out/404.html
+html_handling = "auto-trailing-slash"  # matches trailingSlash: true below
+```
+
+There's no `main` (Worker script) field — this is a pure static site, so
+Cloudflare serves files from `out/` directly with no Worker code in the
+request path. `public/_headers` still applies unchanged.
 
 ---
 
