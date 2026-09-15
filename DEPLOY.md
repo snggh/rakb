@@ -78,6 +78,123 @@ wizard mostly configures itself.
    production): project → **Settings → Domains & Routes** → add
    `ruangaksarakeyboard.com`. TLS is issued automatically.
 
+## What this costs at scale: nothing
+
+The free-forever property does **not** come from using Pages instead of Workers.
+It comes from serving *static assets* rather than executing Worker code. Since
+Cloudflare merged Pages into Workers, that property came along with it.
+
+Cloudflare's pricing docs, verbatim:
+
+> Requests to static assets are free and unlimited.
+
+> There are no additional charges for data transfer (egress) or throughput
+> (bandwidth).
+
+The Free plan's **100,000 requests/day** cap applies to *Worker invocations* —
+requests that run your code. This project has no `main` entry point and does
+not set `run_worker_first`, so a page view invokes nothing: Cloudflare matches
+the URL to a file in `out/` and serves it. Zero invocations, nothing metered,
+no bandwidth bill, at any traffic volume.
+
+### The limits that do exist
+
+| Limit | Free plan | Where this project sits |
+| --- | --- | --- |
+| Static asset requests | unlimited | — |
+| Bandwidth / egress | unlimited, never billed | — |
+| Files per deployment | 20,000 | ~100 |
+| Individual file size | 25 MiB | largest is a ~280 KB photo |
+| Worker invocations | 100,000/day | **0** |
+| Builds | 500/month | a handful |
+
+The only one with a realistic path to being hit is the file count, and only if
+someone commits a few thousand raw photos into `public/`. Keep exporting the
+gallery to compressed WebP and it is not close.
+
+### What would silently end it
+
+Each of these puts Worker code in the request path, converting every page view
+into a metered invocation against the 100,000/day cap:
+
+- Adding an API route, a Server Action, or middleware — any of these makes
+  `output: "export"` impossible and forces a server runtime.
+- Setting `assets.run_worker_first`.
+- Letting Wrangler auto-configure **OpenNext**. This is not hypothetical: it
+  is exactly what the first failed deploy did, because `wrangler.toml` was
+  missing and Wrangler fell back to detecting Next.js and building an SSR
+  Worker. `wrangler.toml` existing is what prevents it.
+
+So `output: "export"` in `next.config.ts` is not a stylistic choice — it is the
+budget. If a future feature seems to need a server, price the change before
+building it.
+
+## Domains
+
+| Domain | Worker | Branch | `NEXT_PUBLIC_SITE_ENV` |
+| --- | --- | --- | --- |
+| `rakb.co.id` (+ `www`) | `rakb` | `main` | `production` |
+| `dev.rakb.co.id` | `rakb-dev` | `develop` | `staging` |
+
+Two Workers, not one. A Worker serves exactly one live version at a time, so
+production and dev cannot be two versions of the same Worker. `wrangler.toml`
+carries an `[env.dev]` block; the dev project deploys with
+`npx wrangler deploy --env dev`, which publishes the `rakb-dev` Worker.
+
+### Prerequisite: the zone has to be on Cloudflare
+
+`rakb.co.id` is registered elsewhere, and Cloudflare Custom Domains require
+"an active Cloudflare zone" — a domain whose DNS Cloudflare actually serves.
+There is no way to point a third-party-hosted domain at a Worker with a plain
+CNAME on the free plan, because Cloudflare has to terminate TLS and route the
+request itself.
+
+So, once:
+
+1. Cloudflare dashboard → **Add a domain** → `rakb.co.id` → Free plan.
+2. Cloudflare shows two nameservers (e.g. `xxx.ns.cloudflare.com`).
+3. At the `.co.id` registrar's control panel, replace the existing
+   nameservers with those two. Keep the domain registered there — only DNS
+   moves.
+4. Wait for Cloudflare to report the zone **Active**. Usually under an hour;
+   `.co.id` can take longer.
+
+This is the slow step and everything else depends on it, so start it first.
+
+### Attaching the domains
+
+Once the zone is Active, per Worker: **Settings → Domains & Routes → Add →
+Custom domain**. Cloudflare creates the DNS record and issues the certificate
+itself — do not add an A or CNAME record by hand.
+
+- `rakb-dev` → `dev.rakb.co.id`
+- `rakb` → `rakb.co.id` and `www.rakb.co.id`
+
+### `dev.rakb.co.id` must be noindex, and now it really matters
+
+Every certificate Cloudflare issues is published to public Certificate
+Transparency logs, and crawlers mine those logs for hostnames. A
+`*.workers.dev` URL nobody links to is obscure; `dev.rakb.co.id` will be
+discoverable within days of the certificate being issued.
+
+So the dev project's build variables are not optional:
+
+| Variable | `rakb-dev` | `rakb` |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_ENV` | `staging` | `production` |
+| `NEXT_PUBLIC_SITE_URL` | `https://dev.rakb.co.id` | `https://rakb.co.id` |
+
+These are **build** variables, not runtime ones — Next inlines `NEXT_PUBLIC_*`
+at build time, so they belong in the Workers Builds settings, not in
+`wrangler.toml` `[vars]`.
+
+Verify after the first deploy:
+
+```bash
+curl -s https://dev.rakb.co.id/robots.txt        # must be: Disallow: /
+curl -s https://rakb.co.id/robots.txt            # must be: Allow: /
+```
+
 ### Password-gating staging later
 
 If you decide the review copy should not be open to anyone with the URL:
