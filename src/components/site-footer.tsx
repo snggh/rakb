@@ -10,7 +10,7 @@ export function SiteFooter() {
         <div>
           <LogoBadge className="logo-badge mb-4" />
           <p className="m-0 max-w-32ch text-ui leading-body text-(--dimmer)">
-            A mechanical keyboard community. Meetups, group buys, and learning together.
+            {site.description}
           </p>
         </div>
         <div className="grid gap-2.25 text-ui-md">

@@ -22,7 +22,7 @@ export const event = {
    * proof — that all stays with the ticketing provider.
    */
   ticketUrl: null as string | null,
-  capacity: "± 80 people",
+  capacity: "± 200 people",
   capacityNote: "Including 20 display tables",
   venue: {
     shortName: "BMW Motorrad Flagship",
