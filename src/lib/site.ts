@@ -1,12 +1,12 @@
 export const site = {
   name: "Ruang Aksara Keyboard",
   description:
-    "A mechanical keyboard community in Jakarta. Meetups, group buys, and learning together.",
+    "Ruang Aksara Keyboard is a collective movement built around bringing people together through mechanical keyboards",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ruangaksarakeyboard.com",
-  instagram: "https://www.instagram.com/ruangaksarakeyboard/",
-  youtube: "https://www.youtube.com/@ruangaksarakeyboard",
-  instagramHandle: "@ruangaksarakeyboard",
-  youtubeHandle: "@ruangaksarakeyboard",
+  instagram: "https://www.instagram.com/ruangaksarakb/",
+  youtube: "https://www.youtube.com/@ruangaksarakb",
+  instagramHandle: "@ruangaksarakb",
+  youtubeHandle: "@ruangaksarakb",
 } as const;
 
 export const navItems = [
