@@ -78,6 +78,72 @@ wizard mostly configures itself.
    production): project → **Settings → Domains & Routes** → add
    `ruangaksarakeyboard.com`. TLS is issued automatically.
 
+## Domains
+
+| Domain | Worker | Branch | `NEXT_PUBLIC_SITE_ENV` |
+| --- | --- | --- | --- |
+| `rakb.co.id` (+ `www`) | `rakb` | `main` | `production` |
+| `dev.rakb.co.id` | `rakb-dev` | `develop` | `staging` |
+
+Two Workers, not one. A Worker serves exactly one live version at a time, so
+production and dev cannot be two versions of the same Worker. `wrangler.toml`
+carries an `[env.dev]` block; the dev project deploys with
+`npx wrangler deploy --env dev`, which publishes the `rakb-dev` Worker.
+
+### Prerequisite: the zone has to be on Cloudflare
+
+`rakb.co.id` is registered elsewhere, and Cloudflare Custom Domains require
+"an active Cloudflare zone" — a domain whose DNS Cloudflare actually serves.
+There is no way to point a third-party-hosted domain at a Worker with a plain
+CNAME on the free plan, because Cloudflare has to terminate TLS and route the
+request itself.
+
+So, once:
+
+1. Cloudflare dashboard → **Add a domain** → `rakb.co.id` → Free plan.
+2. Cloudflare shows two nameservers (e.g. `xxx.ns.cloudflare.com`).
+3. At the `.co.id` registrar's control panel, replace the existing
+   nameservers with those two. Keep the domain registered there — only DNS
+   moves.
+4. Wait for Cloudflare to report the zone **Active**. Usually under an hour;
+   `.co.id` can take longer.
+
+This is the slow step and everything else depends on it, so start it first.
+
+### Attaching the domains
+
+Once the zone is Active, per Worker: **Settings → Domains & Routes → Add →
+Custom domain**. Cloudflare creates the DNS record and issues the certificate
+itself — do not add an A or CNAME record by hand.
+
+- `rakb-dev` → `dev.rakb.co.id`
+- `rakb` → `rakb.co.id` and `www.rakb.co.id`
+
+### `dev.rakb.co.id` must be noindex, and now it really matters
+
+Every certificate Cloudflare issues is published to public Certificate
+Transparency logs, and crawlers mine those logs for hostnames. A
+`*.workers.dev` URL nobody links to is obscure; `dev.rakb.co.id` will be
+discoverable within days of the certificate being issued.
+
+So the dev project's build variables are not optional:
+
+| Variable | `rakb-dev` | `rakb` |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_ENV` | `staging` | `production` |
+| `NEXT_PUBLIC_SITE_URL` | `https://dev.rakb.co.id` | `https://rakb.co.id` |
+
+These are **build** variables, not runtime ones — Next inlines `NEXT_PUBLIC_*`
+at build time, so they belong in the Workers Builds settings, not in
+`wrangler.toml` `[vars]`.
+
+Verify after the first deploy:
+
+```bash
+curl -s https://dev.rakb.co.id/robots.txt        # must be: Disallow: /
+curl -s https://rakb.co.id/robots.txt            # must be: Allow: /
+```
+
 ### Password-gating staging later
 
 If you decide the review copy should not be open to anyone with the URL:

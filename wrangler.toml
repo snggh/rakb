@@ -19,3 +19,24 @@ not_found_handling = "404-page"
 # Cloudflare's default, made explicit so a future default change can't
 # silently break routing here.
 html_handling = "auto-trailing-slash"
+
+# ── Development environment ───────────────────────────────────────────────
+# Deployed with `wrangler deploy --env dev`, which publishes a *separate*
+# Worker called `rakb-dev`.
+#
+# Why two Workers instead of one: a Worker serves exactly one live version at
+# a time. dev.rakb.co.id and rakb.co.id therefore cannot be two versions of
+# the same Worker — they are two Workers built from two branches (`develop`
+# and `main`), each with its own custom domain and its own build variables.
+#
+# `assets` is not documented as an inheritable key, so it is repeated here
+# rather than assumed. Keep the two blocks identical: the only thing that
+# should differ between dev and production is the branch and the build
+# variables, never the routing behaviour.
+[env.dev]
+name = "rakb-dev"
+
+[env.dev.assets]
+directory = "./out"
+not_found_handling = "404-page"
+html_handling = "auto-trailing-slash"
