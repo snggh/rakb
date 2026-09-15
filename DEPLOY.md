@@ -78,6 +78,57 @@ wizard mostly configures itself.
    production): project → **Settings → Domains & Routes** → add
    `ruangaksarakeyboard.com`. TLS is issued automatically.
 
+## What this costs at scale: nothing
+
+The free-forever property does **not** come from using Pages instead of Workers.
+It comes from serving *static assets* rather than executing Worker code. Since
+Cloudflare merged Pages into Workers, that property came along with it.
+
+Cloudflare's pricing docs, verbatim:
+
+> Requests to static assets are free and unlimited.
+
+> There are no additional charges for data transfer (egress) or throughput
+> (bandwidth).
+
+The Free plan's **100,000 requests/day** cap applies to *Worker invocations* —
+requests that run your code. This project has no `main` entry point and does
+not set `run_worker_first`, so a page view invokes nothing: Cloudflare matches
+the URL to a file in `out/` and serves it. Zero invocations, nothing metered,
+no bandwidth bill, at any traffic volume.
+
+### The limits that do exist
+
+| Limit | Free plan | Where this project sits |
+| --- | --- | --- |
+| Static asset requests | unlimited | — |
+| Bandwidth / egress | unlimited, never billed | — |
+| Files per deployment | 20,000 | ~100 |
+| Individual file size | 25 MiB | largest is a ~280 KB photo |
+| Worker invocations | 100,000/day | **0** |
+| Builds | 500/month | a handful |
+
+The only one with a realistic path to being hit is the file count, and only if
+someone commits a few thousand raw photos into `public/`. Keep exporting the
+gallery to compressed WebP and it is not close.
+
+### What would silently end it
+
+Each of these puts Worker code in the request path, converting every page view
+into a metered invocation against the 100,000/day cap:
+
+- Adding an API route, a Server Action, or middleware — any of these makes
+  `output: "export"` impossible and forces a server runtime.
+- Setting `assets.run_worker_first`.
+- Letting Wrangler auto-configure **OpenNext**. This is not hypothetical: it
+  is exactly what the first failed deploy did, because `wrangler.toml` was
+  missing and Wrangler fell back to detecting Next.js and building an SSR
+  Worker. `wrangler.toml` existing is what prevents it.
+
+So `output: "export"` in `next.config.ts` is not a stylistic choice — it is the
+budget. If a future feature seems to need a server, price the change before
+building it.
+
 ## Domains
 
 | Domain | Worker | Branch | `NEXT_PUBLIC_SITE_ENV` |
