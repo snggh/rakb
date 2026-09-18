@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GalleryPreviewBrowser } from "@/components/gallery-browser";
 import { ImageSlot } from "@/components/image-slot";
-import { MascotGmkA } from "@/components/mascot-gmk-a";
+import { HeroMascot } from "@/components/hero-mascot";
 import { RegisterCta } from "@/components/register-cta";
 import { Reveal } from "@/components/reveal";
 import { VenueMap } from "@/components/venue-map";
@@ -48,7 +48,7 @@ export default function HomePage() {
             <Reveal delay={0.08}>
               <figure>
                 <div className="relative" style={{ aspectRatio: "4 / 3" }}>
-                  <MascotGmkA className="absolute inset-0 h-full w-full" />
+                  <HeroMascot className="absolute inset-0 h-full w-full" />
                 </div>
               </figure>
             </Reveal>
