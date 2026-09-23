@@ -61,7 +61,7 @@ export function SiteFooter() {
           <div className="mono mb-0.5">More</div>
           <Link href="/rules">Meetup rules</Link>
           <Link href="/gallery">Gallery</Link>
-          <Link href="/community">About &amp; team</Link>
+          <Link href="/community">About us</Link>
         </div>
         <div className="grid gap-2 text-ui-md">
           <div className="mono mb-0.5">Contact</div>

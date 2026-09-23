@@ -4,7 +4,7 @@ export { rundown, scheduleDraft, scheduleNote } from "./schedule";
 export { arrivalNotes, transport } from "./transport";
 export { rules, rulesIntro, termsClosing, termsPreamble, zeroTolerance } from "./rules";
 export { faqs } from "./faqs";
-export { members, membersNote } from "./members";
+export { members } from "./members";
 export type { Member } from "./members";
 export { gallery, galleryPreview, galleryVolumes } from "./gallery";
 export type { GalleryItem, GalleryVolume } from "./gallery";

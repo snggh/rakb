@@ -176,7 +176,7 @@ export default function HomePage() {
               Become a supporter
             </Link>
             <Link href="/community" className="btn btn-secondary">
-              About the community
+              About us
             </Link>
           </div>
         </div>

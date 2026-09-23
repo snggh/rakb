@@ -17,7 +17,7 @@ export const navItems = [
   { href: "/getting-there", label: "Getting There" },
   { href: "/rules", label: "Rules" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/community", label: "Community" },
+  { href: "/community", label: "About Us" },
   { href: "/tools", label: "Tools" },
   { href: "/faq", label: "FAQ" },
 ] as const;

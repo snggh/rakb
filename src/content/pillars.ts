@@ -1,21 +1,24 @@
 export const communityIntro = {
   kicker: "About us",
-  headline: "A collective movement around mechanical keyboards",
-  lead: "Ruang Aksara Keyboard is a collective movement built around bringing people together through mechanical keyboards.",
-  note: "The full profile — history, vision, and scope of activities — is still being written; this section is set up to take it.",
+  headline: "Ruang Aksara Keyboard",
+  lead: "RAKB is a collective movement built around bringing people together through mechanical keyboards. We believe the scene grows through connection, participation, and shared experiences. By bringing communities, enthusiasts, makers, and creators closer together, we make keyboard culture more visible, create spaces for people to get involved, and amplify the stories, ideas, and collaborations that move the scene forward.",
 } as const;
 
 export const pillars = [
   {
-    title: "Regular meetups",
-    body: "Open gatherings for anyone, from people holding their first board to those with dozens of builds behind them.",
+    title: "Connect",
+    body: "Bringing people together — communities, individuals, enthusiasts, makers, and creators.",
   },
   {
-    title: "Learning together",
-    body: "Hands-on sessions: lubing, modding, and technical discussion without gatekeeping.",
+    title: "Visible",
+    body: "Making keyboard culture more visible.",
   },
   {
-    title: "Access & trust",
-    body: "Connecting members with vendors, artisans, and group buys that have a track record.",
+    title: "Activate",
+    body: "Creating opportunities for people to engage and participate.",
+  },
+  {
+    title: "Amplify",
+    body: "Amplifying stories, creations, and collaborations.",
   },
 ] as const;

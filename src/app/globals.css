@@ -707,6 +707,14 @@ figcaption {
   padding: 0;
 }
 
+.cell-grid.cell-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cell-grid-4 .cell {
+  padding-inline: 1rem;
+}
+
 .cell {
   padding: 1.625rem 1.5rem;
   border-right: 1px solid var(--color-divider);
@@ -1825,6 +1833,32 @@ html:not(.lightbox-open) .site-shell {
   }
 
   .cell:last-child {
+    border-bottom: none;
+  }
+
+  /* Four-up rows keep vertical rules. The shared rule above is for stacks. */
+  .cell-grid-4 .cell {
+    border-right: 1px solid var(--color-divider);
+    border-bottom: none;
+  }
+
+  .cell-grid-4 .cell:last-child {
+    border-right: none;
+  }
+}
+
+@media (max-width: 42rem) {
+  .cell-grid.cell-grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .cell-grid-4 .cell {
+    padding-inline: 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .cell-grid-4 .cell:last-child {
     border-bottom: none;
   }
 }
