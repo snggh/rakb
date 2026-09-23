@@ -7,6 +7,9 @@ export const site = {
   youtube: "https://www.youtube.com/@ruangaksarakb",
   instagramHandle: "@ruangaksarakb",
   youtubeHandle: "@ruangaksarakb",
+  email: "ruangaksarakb@gmail.com",
+  whatsapp: "https://wa.me/6281290414505",
+  whatsappNumber: "0812-9041-4505",
 } as const;
 
 export const navItems = [

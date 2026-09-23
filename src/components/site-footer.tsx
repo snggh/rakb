@@ -1,7 +1,45 @@
 import Link from "next/link";
+import { EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr/EnvelopeSimple";
+import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr/InstagramLogo";
+import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr/WhatsappLogo";
+import { YoutubeLogoIcon } from "@phosphor-icons/react/dist/ssr/YoutubeLogo";
+import type { Icon, IconWeight } from "@phosphor-icons/react";
 import { RegisterCta } from "@/components/register-cta";
 import { LogoBadge } from "@/components/logo";
 import { site } from "@/lib/site";
+
+const contactIcon = {
+  size: 16,
+  weight: "regular" as IconWeight,
+  "aria-hidden": true,
+  focusable: false,
+} as const;
+
+function ContactLink({
+  href,
+  label,
+  icon: Icon,
+  external,
+  children,
+}: {
+  href: string;
+  label: string;
+  icon: Icon;
+  external?: boolean;
+  children: string;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={`${label}, ${children}`}
+      className="inline-flex items-center gap-2"
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      <Icon {...contactIcon} className="shrink-0" />
+      {children}
+    </a>
+  );
+}
 
 export function SiteFooter() {
   return (
@@ -25,20 +63,20 @@ export function SiteFooter() {
           <Link href="/gallery">Gallery</Link>
           <Link href="/community">About &amp; team</Link>
         </div>
-        <div className="grid gap-1.5 text-ui-md">
+        <div className="grid gap-2 text-ui-md">
           <div className="mono mb-0.5">Contact</div>
-          <div>
-            Instagram ·{" "}
-            <a href={site.instagram} target="_blank" rel="noopener noreferrer">
-              {site.instagramHandle}
-            </a>
-          </div>
-          <div>
-            YouTube ·{" "}
-            <a href={site.youtube} target="_blank" rel="noopener noreferrer">
-              {site.youtubeHandle}
-            </a>
-          </div>
+          <ContactLink href={site.instagram} label="Instagram" icon={InstagramLogoIcon} external>
+            {site.instagramHandle}
+          </ContactLink>
+          <ContactLink href={site.youtube} label="YouTube" icon={YoutubeLogoIcon} external>
+            {site.youtubeHandle}
+          </ContactLink>
+          <ContactLink href={`mailto:${site.email}`} label="Email" icon={EnvelopeSimpleIcon}>
+            {site.email}
+          </ContactLink>
+          <ContactLink href={site.whatsapp} label="WhatsApp" icon={WhatsappLogoIcon} external>
+            {site.whatsappNumber}
+          </ContactLink>
           <div className="mt-2.5 text-(--dimmer)">© 2026 {site.name}</div>
         </div>
       </div>
